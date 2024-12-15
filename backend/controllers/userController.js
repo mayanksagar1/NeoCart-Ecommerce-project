@@ -49,7 +49,12 @@ const loginUser = asyncHandler(async (req, res) => {
     if (isPasswordValid) {
       generateToken(res, existingUser._id);
 
-      return res.status(201).send(existingUser);
+      return res.status(201).json({
+        _id: existingUser._id,
+        username: existingUser.username,
+        email: existingUser.email,
+        isAdmin: existingUser.isAdmin,
+      });
     }
     return res.status(400).send("Invalid user password , please try again");
   }
