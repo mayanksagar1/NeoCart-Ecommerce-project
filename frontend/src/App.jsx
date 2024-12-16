@@ -8,7 +8,7 @@ function App() {
     <>
       <ToastContainer />
       <Navigation />
-      <main className="py-3">
+      <main className="py-3 h-[100vh]">
         <Outlet />
       </main>
     </>

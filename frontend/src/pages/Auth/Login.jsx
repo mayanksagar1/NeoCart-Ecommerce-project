@@ -6,7 +6,7 @@ import {setCredentials} from "../../redux/features/auth/authSlice.js";
 import {toast} from "react-toastify";
 import Loader from "../../components/Loader.jsx";
 
-export const Login = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,7 +15,7 @@ export const Login = () => {
 
   const [login, {isLoading}] = useLoginMutation();
 
-  const userInfo = useSelector((state) => state.auth);
+  const {userInfo} = useSelector((state) => state.auth);
 
   const {search} = useLocation();
   const sp = new URLSearchParams(search);
@@ -23,8 +23,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (userInfo) {
-      console.log("redirected by useEffect to", redirect);
-      // navigate(redirect);
+      navigate(redirect);
     }
   }, [navigate, redirect, userInfo]);
 
@@ -41,11 +40,11 @@ export const Login = () => {
   };
 
   return (
-    <div className="">
-      <section className="pl-[10rem] flex flex-wrap">
-        <div className="mt-[5rem] mx-auto">
+    <div className="h-[100%]">
+      <section className="h-[100%] md:pl-[18vw] p-4 flex gap-6 flex-wrap">
+        <div className="mt-[5rem] lg:w-[40%] w-[100%] ">
           <h1 className="text-3xl font-semibold ">Sign In</h1>
-          <form onSubmit={handleSubmit} className="container w-[40rem]">
+          <form onSubmit={handleSubmit} className="container  w-[100%]">
             <div className="my-[2rem]">
               <label htmlFor="email" className="block text-xl font-medium">
                 Email
@@ -72,7 +71,14 @@ export const Login = () => {
             </p>
           </div>
         </div>
+        <img
+          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80"
+          alt=""
+          className="h-[90%] my-[2rem] w-[55%] xl: lg:block hidden md:hidden sm:hidden rounded-lg"
+        />
       </section>
     </div>
   );
 };
+
+export default Login;

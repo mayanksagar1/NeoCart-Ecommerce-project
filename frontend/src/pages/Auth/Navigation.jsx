@@ -36,32 +36,42 @@ const Navigation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [loginApiCall] = useLogoutMutation();
+  const [logOutApiCall] = useLogoutMutation();
+
+  const logOutHandler = async () => {
+    try {
+      await logOutApiCall().unwrap();
+      dispatch(logOut());
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div
       style={{zIndex: 9999}}
-      className={`${showSidebar ? "hidden" : "flex"} text-white xl:flex lg:flex md:hidden sm:hidden bg-[#000] w-[5%] hover:w-[15%] h-[100vh] flex-col items-center justify-between  fixed py-4 `}
+      className={`hidden text-white xl:flex lg:flex md:flex sm:hidden bg-[#000] w-[5%] hover:w-[15%] h-[100vh] flex-col items-center justify-between  fixed py-4 `}
       id="navigation-container"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}>
       <div className="w-[100%]">
-        <Link to="/">{!isHovered ? <img src={appLogoSmall} className="w-[100%] p-3" alt="" /> : <img src={appLogo} width={"100%"} className="transform  p-5" alt="" />}</Link>
+        <Link to="/">{!isHovered ? <img src={appLogoSmall} className="w-[100%] p-2" alt="" /> : <img src={appLogo} width={"100%"} className="transform  p-5" alt="" />}</Link>
       </div>
       <div className="flex flex-col p-3">
-        <Link to="/" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2">
+        <Link to="/" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
           <AiOutlineHome size={26} className=" mt-[2rem]" />
           <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Home</span>
         </Link>
-        <Link to="/shop" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2">
+        <Link to="/shop" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
           <AiOutlineShopping size={26} className=" mt-[2rem]" />
           <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Shop</span>
         </Link>
-        <Link to="/cart" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2">
+        <Link to="/cart" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
           <AiOutlineShoppingCart size={26} className=" mt-[2rem]" />
           <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Cart</span>
         </Link>
-        <Link to="/favorite" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2">
+        <Link to="/favorite" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
           <FaHeart size={26} className=" mt-[2rem]" />
           <span className="hidden nav-item-name pl-[1rem]  mt-[2rem]">Favorite</span>
         </Link>
@@ -69,29 +79,52 @@ const Navigation = () => {
 
       <div className="p-3 relative">
         {userInfo && (
-          <button onClick={() => toggleDropDownOpen()} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2">
+          <button onClick={() => toggleDropDownOpen()} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
             <FaUser size={26} className=" mt-[2rem]" />
             <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">{userInfo.username}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`hidden nav-item-name h-4 w-4 ml-1 mt-[2rem] ${dropDownOpen ? "transform rotate-180" : ""}`}
+              className={`hidden nav-item-name h-4 w-4 ml-2 mt-[2rem] transform ${dropDownOpen ? "transform rotate-180" : ""}`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="white">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={dropDownOpen ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
         )}
+
+        {dropDownOpen && userInfo && (
+          <ul className={`absolute hidden nav-item-name mt-2 p-2 space-y-2  ${userInfo.role !== "admin" ? "-top-20" : "-top-40"} `}>
+            {userInfo.role === "admin" && (
+              <li>
+                <Link to="/admin/dashboard" className="block px-2 mx-2 text-sm py-2 hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
+                  Admin Dashboard
+                </Link>
+              </li>
+            )}
+            <li>
+              <Link to="/profile" className="block text-sm px-2 mx-2 py-2 hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
+                Profile
+              </Link>
+            </li>
+            <li>
+              <button onClick={logOutHandler} className="block text-sm w-full px-2 mx-2 py-2 text-left hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
+                Logout
+              </button>
+            </li>
+          </ul>
+        )}
+
         {!userInfo && (
           <ul>
             <li>
-              <Link to="/login" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2">
+              <Link to="/login" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
                 <AiOutlineLogin size={26} className=" mt-[2rem]" />
                 <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Login</span>
               </Link>
             </li>
             <li>
-              <Link to="/login" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-1">
+              <Link to="/register" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-1 hover:text-[#7c3aed]">
                 <AiOutlineUserAdd size={26} className=" mt-[2rem]" />
                 <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Register</span>
               </Link>

@@ -7,7 +7,7 @@ const createUser = asyncHandler(async (req, res, next) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
-    throw new Error("please fill all inputs.");
+    throw new Error("please fill all the inputs.");
   }
 
   const userExists = await User.findOne({ email });
@@ -26,7 +26,6 @@ const createUser = asyncHandler(async (req, res, next) => {
       _id: newUser._id,
       username: newUser.username,
       email: newUser.email,
-      password: newUser.password,
       role: newUser.role
     });
   } catch (error) {
@@ -53,7 +52,7 @@ const loginUser = asyncHandler(async (req, res) => {
         _id: existingUser._id,
         username: existingUser.username,
         email: existingUser.email,
-        isAdmin: existingUser.isAdmin,
+        role: existingUser.role,
       });
     }
     return res.status(400).send("Invalid user password , please try again");
