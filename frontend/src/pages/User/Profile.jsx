@@ -1,0 +1,94 @@
+import {useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate, useLocation, Link} from "react-router";
+import {setCredentials} from "../../redux/features/auth/authSlice";
+import {useProfileMutation} from "../../redux/api/usersApiSlice";
+import Loader from "../../components/Loader";
+import {toast} from "react-toastify";
+import {MdEditSquare} from "react-icons/md";
+
+const Profile = () => {
+  const [edit, setEdit] = useState(true);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const {userInfo} = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    setUsername(userInfo.username);
+    setEmail(userInfo.email);
+  }, [userInfo.username, userInfo.email]);
+
+  const [updateUserProfile, {isLoading: loadingUpdateProfile}] = useProfileMutation();
+
+  const submitHandler = async (e) => {
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+    } else {
+      try {
+        const res = await updateUserProfile({
+          _id: userInfo._id,
+          username,
+          email,
+          password,
+        }).unwrap();
+        dispatch(setCredentials({...res}));
+        toast.success("Profile updated successfully");
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    }
+  };
+  return (
+    <div className="p-4 mb-5 md:w-[90%] w-[100%] shadow-md">
+      <h2 className="flex items-center p-3 justify-between font-semibold gap-3">
+        Profile
+        <button className="border-black border-2 flex items-center gap-2 rounded bg-violet-500 hover:bg-violet-500 p-2 text-white" onClick={() => setEdit(false)}>
+          <MdEditSquare size={22} />
+          Edit
+        </button>
+      </h2>
+      <form form onSubmit={submitHandler}>
+        <div className="mb-4">
+          <label className="block  mb-2">Name</label>
+          <input disabled={edit} type="text" placeholder="Enter name" className="form-input p-4 rounded-sm w-full" value={username} onChange={(e) => setUsername(e.target.value)} />
+        </div>
+
+        <div className="mb-4">
+          <label className="block  mb-2">Email Address</label>
+          <input disabled={edit} type="email" placeholder="Enter email" className="form-input p-4 rounded-sm w-full" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+
+        <div className="mb-4">
+          <label className="block  mb-2">Password</label>
+          <input disabled={edit} type="password" placeholder="Enter password" className="form-input p-4 rounded-sm w-full" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+
+        <div className="mb-4">
+          <label className="block mb-2">Confirm Password</label>
+          <input
+            disabled={edit}
+            type="password"
+            placeholder="Confirm password"
+            className="form-input p-4 rounded-sm w-full"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </div>
+
+        <div className="flex justify-between">
+          <button disabled={edit} type="submit" className="border-black border-2 bg-violet-500 text-white py-2 px-4 rounded hover:bg-violet-600">
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default Profile;

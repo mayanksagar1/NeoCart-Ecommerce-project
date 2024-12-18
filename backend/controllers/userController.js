@@ -11,7 +11,7 @@ const createUser = asyncHandler(async (req, res, next) => {
   }
 
   const userExists = await User.findOne({ email });
-  if (userExists) return res.status(400).send("User already exists");
+  if (userExists) return res.status(400).json({ message: "User already exists" });
 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
@@ -29,7 +29,8 @@ const createUser = asyncHandler(async (req, res, next) => {
       role: newUser.role
     });
   } catch (error) {
-    res.status(400).send("invalid user data");
+    res.status(400);
+    throw new Error("invalid user data");
   }
 });
 
@@ -55,9 +56,9 @@ const loginUser = asyncHandler(async (req, res) => {
         role: existingUser.role,
       });
     }
-    return res.status(400).send("Invalid user password , please try again");
+    return res.status(400).json({ message: "Invalid user password , please try again" });
   }
-  return res.status(400).send("User not found , please register yourself first");
+  return res.status(400).json({ message: "User not found , please register yourself first" });
 
 });
 
@@ -120,7 +121,7 @@ const deleteUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (user) {
     if (user.role === "admin") {
-      return res.status(400).send("cannot delete a admin user");
+      return res.status(400).json({ message: "cannot delete a admin user" });
     }
 
     await User.deleteOne({ _id: user._id });

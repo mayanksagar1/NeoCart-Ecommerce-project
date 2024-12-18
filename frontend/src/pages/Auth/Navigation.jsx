@@ -9,6 +9,7 @@ import {useLogoutMutation} from "../../redux/api/usersApiSlice";
 import {logOut} from "../../redux/features/auth/authSlice";
 import appLogo from "../../assets/logo.svg";
 import appLogoSmall from "../../assets/logoSmall.svg";
+import {toast} from "react-toastify";
 
 const Navigation = () => {
   const {userInfo} = useSelector((state) => state.auth);
@@ -40,8 +41,9 @@ const Navigation = () => {
 
   const logOutHandler = async () => {
     try {
-      await logOutApiCall().unwrap();
+      let res = await logOutApiCall().unwrap();
       dispatch(logOut());
+      toast.success(res.message);
       navigate("/login");
     } catch (error) {
       console.log(error);
@@ -56,7 +58,7 @@ const Navigation = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}>
       <div className="w-[100%]">
-        <Link to="/">{!isHovered ? <img src={appLogoSmall} className="w-[100%] p-2" alt="" /> : <img src={appLogo} width={"100%"} className="transform  p-5" alt="" />}</Link>
+        <Link to="/">{!isHovered ? <img src={appLogoSmall} className="w-[100%] p-2" alt="" /> : <img src={appLogo} width={"100%"} className="w-[100%]  p-5" alt="" />}</Link>
       </div>
       <div className="flex flex-col p-3">
         <Link to="/" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
@@ -103,8 +105,8 @@ const Navigation = () => {
               </li>
             )}
             <li>
-              <Link to="/profile" className="block text-sm px-2 mx-2 py-2 hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
-                Profile
+              <Link to="/account" className="block text-sm px-2 mx-2 py-2 hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
+                Account
               </Link>
             </li>
             <li>
