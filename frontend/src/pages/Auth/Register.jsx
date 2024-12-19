@@ -51,8 +51,8 @@ const Register = () => {
   };
 
   return (
-    <section className="md:pl-[18vw] h-[100%] p-4 flex gap-6 flex-wrap">
-      <div className="mt-[5rem] lg:w-[40%] w-[100%] ">
+    <section className="md:pl-[16vw] h-[100%] p-4 flex gap-6 flex-wrap">
+      <div className="mt-[3rem] lg:w-[40%] w-[100%] ">
         <h1 className="text-3xl font-semibold">Register</h1>
         <form className="container w-[100%]" onSubmit={handleSubmit}>
           <div className="my-[1.5rem]">
@@ -96,7 +96,7 @@ const Register = () => {
       <img
         src="https://images.unsplash.com/photo-1576502200916-3808e07386a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2065&q=80"
         alt=""
-        className=" w-[55%] xl: lg:block hidden md:hidden sm:hidden rounded-lg"
+        className=" w-[55%] h-[84vh] lg:block hidden md:hidden sm:hidden rounded-lg"
       />
     </section>
   );

@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {AiOutlineHome, AiOutlineShopping, AiOutlineLogin, AiOutlineUserAdd, AiOutlineShoppingCart} from "react-icons/ai";
-import {FaHeart, FaUser} from "react-icons/fa";
+import {FaHeart, FaUser, FaBars, FaTimes} from "react-icons/fa";
 import {Link} from "react-router";
 import {useNavigate} from "react-router-dom";
 import "./Navigation.css";
@@ -18,7 +18,7 @@ const Navigation = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [dropDownOpen, setDropDownOpen] = useState(false);
 
-  const toggleShowSidebar = () => {
+  const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
 
@@ -26,12 +26,8 @@ const Navigation = () => {
     setDropDownOpen(!dropDownOpen);
   };
 
-  const closeShowSidebar = () => {
+  const closeSidebar = () => {
     setShowSidebar(false);
-  };
-
-  const closeDropDownOpen = () => {
-    setDropDownOpen(false);
   };
 
   const dispatch = useDispatch();
@@ -45,96 +41,123 @@ const Navigation = () => {
       dispatch(logOut());
       toast.success(res.message);
       navigate("/login");
+      closeSidebar();
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div
-      style={{zIndex: 9999}}
-      className={`hidden text-white xl:flex lg:flex md:flex sm:hidden bg-[#000] w-[5%] hover:w-[15%] h-[100vh] flex-col items-center justify-between  fixed py-4 `}
-      id="navigation-container"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}>
-      <div className="w-[100%]">
-        <Link to="/">{!isHovered ? <img src={appLogoSmall} className="w-[100%] p-2" alt="" /> : <img src={appLogo} width={"100%"} className="w-[100%]  p-5" alt="" />}</Link>
-      </div>
-      <div className="flex flex-col p-3">
-        <Link to="/" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
-          <AiOutlineHome size={26} className=" mt-[2rem]" />
-          <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Home</span>
-        </Link>
-        <Link to="/shop" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
-          <AiOutlineShopping size={26} className=" mt-[2rem]" />
-          <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Shop</span>
-        </Link>
-        <Link to="/cart" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
-          <AiOutlineShoppingCart size={26} className=" mt-[2rem]" />
-          <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Cart</span>
-        </Link>
-        <Link to="/favorite" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
-          <FaHeart size={26} className=" mt-[2rem]" />
-          <span className="hidden nav-item-name pl-[1rem]  mt-[2rem]">Favorite</span>
-        </Link>
-      </div>
-
-      <div className="p-3 relative">
-        {userInfo && (
-          <button onClick={() => toggleDropDownOpen()} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
-            <FaUser size={26} className=" mt-[2rem]" />
-            <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">{userInfo.username}</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={`hidden nav-item-name h-4 w-4 ml-2 mt-[2rem] transform ${dropDownOpen ? "transform rotate-180" : ""}`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="white">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-            </svg>
+    <>
+      {!showSidebar ? (
+        <div className="block xl:hidden lg:hidden  fixed top-4 left-4 z-50">
+          <button onClick={toggleSidebar}>
+            <FaBars size={26} />
           </button>
-        )}
+        </div>
+      ) : (
+        <div className="block text-white xl:hidden lg:hidden  fixed top-4 right-4 z-50">
+          <button onClick={toggleSidebar}>
+            <FaTimes size={26} />
+          </button>
+        </div>
+      )}
 
-        {dropDownOpen && userInfo && (
-          <ul className={`absolute hidden nav-item-name mt-2 p-2 space-y-2  ${userInfo.role !== "admin" ? "-top-20" : "-top-40"} `}>
-            {userInfo.role === "admin" && (
+      <div
+        style={{zIndex: 9999}}
+        className={` text-white bg-[#000] h-[100vh] flex flex-col items-center justify-between fixed z-40 transition-transform transform ${
+          showSidebar ? "translate-x-0" : "-translate-x-full"
+        } xl:translate-x-0 lg:translate-x-0 w-[80%] sm:w-[60%] md:w-[40%] lg:w-[5%] xl:w-[5%] lg:hover:w-[15%] `}
+        id="navigation-container"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}>
+        <div className="w-[100%]">
+          <Link onClick={closeSidebar} to="/">
+            {!isHovered && !showSidebar ? <img src={appLogoSmall} className="w-[100%] p-2" alt="" /> : <img src={appLogo} width={"100%"} className="w-[100%]  p-5" alt="" />}
+          </Link>
+        </div>
+        <div className="flex flex-col p-3">
+          <Link to="/" onClick={closeSidebar} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
+            <AiOutlineHome size={26} className="" />
+            <span className={`${showSidebar && "block"} hidden nav-item-name pl-[1rem] `}>Home</span>
+          </Link>
+          <Link to="/shop" onClick={closeSidebar} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
+            <AiOutlineShopping size={26} className=" mt-[2rem]" />
+            <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Shop</span>
+          </Link>
+          <Link to="/cart" onClick={closeSidebar} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
+            <AiOutlineShoppingCart size={26} className=" mt-[2rem]" />
+            <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Cart</span>
+          </Link>
+          <Link to="/favorite" onClick={closeSidebar} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
+            <FaHeart size={26} className=" mt-[2rem]" />
+            <span className="hidden nav-item-name pl-[1rem]  mt-[2rem]">Favorite</span>
+          </Link>
+        </div>
+
+        <div className="p-3 relative">
+          {userInfo && (
+            <button onClick={() => toggleDropDownOpen()} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
+              <FaUser size={26} className=" mt-[2rem]" />
+              <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">{userInfo.username}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`hidden nav-item-name h-4 w-4 ml-2 mt-[2rem] transition-all transform ${dropDownOpen ? "transform rotate-180" : ""}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="white">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          )}
+
+          {dropDownOpen && userInfo && (
+            <ul className={`absolute transition-all bg-slate-950 rounded-lg hidden nav-item-name mt-2 p-2 space-y-2  ${userInfo.role !== "admin" ? "-top-20" : "-top-40"} `}>
+              {userInfo.role === "admin" && (
+                <li>
+                  <Link
+                    onClick={closeSidebar}
+                    to="/admin/dashboard"
+                    className="block px-2 mx-2 text-sm py-2 hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
+                    Admin Dashboard
+                  </Link>
+                </li>
+              )}
               <li>
-                <Link to="/admin/dashboard" className="block px-2 mx-2 text-sm py-2 hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
-                  Admin Dashboard
+                <Link onClick={closeSidebar} to="/account" className="block text-sm px-2 mx-2 py-2 hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
+                  Account
                 </Link>
               </li>
-            )}
-            <li>
-              <Link to="/account" className="block text-sm px-2 mx-2 py-2 hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
-                Account
-              </Link>
-            </li>
-            <li>
-              <button onClick={logOutHandler} className="block text-sm w-full px-2 mx-2 py-2 text-left hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
-                Logout
-              </button>
-            </li>
-          </ul>
-        )}
+              <li>
+                <button
+                  onClick={logOutHandler}
+                  className="block text-sm w-[90%] px-2 mx-2 py-2 text-left hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-1">
+                  Logout
+                </button>
+              </li>
+            </ul>
+          )}
 
-        {!userInfo && (
-          <ul>
-            <li>
-              <Link to="/login" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
-                <AiOutlineLogin size={26} className=" mt-[2rem]" />
-                <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Login</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/register" className="flex items-center transition-transform transform hover:font-bold hover:translate-x-1 hover:text-[#7c3aed]">
-                <AiOutlineUserAdd size={26} className=" mt-[2rem]" />
-                <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Register</span>
-              </Link>
-            </li>
-          </ul>
-        )}
+          {!userInfo && (
+            <ul>
+              <li>
+                <Link to="/login" onClick={closeSidebar} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
+                  <AiOutlineLogin size={26} className=" mt-[2rem]" />
+                  <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Login</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/register" onClick={closeSidebar} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-1 hover:text-[#7c3aed]">
+                  <AiOutlineUserAdd size={26} className=" mt-[2rem]" />
+                  <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Register</span>
+                </Link>
+              </li>
+            </ul>
+          )}
+        </div>
       </div>
-    </div>
+      {showSidebar && <div className="fixed inset-0 bg-black opacity-60 z-30" onClick={closeSidebar}></div>}
+    </>
   );
 };
 

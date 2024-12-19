@@ -1,16 +1,10 @@
 #navigation-container {
-  width: 4%;
   transition: width 0.3s ease-in-out;
   overflow: hidden; /* Hide overflowing content during transition */
 }
 
-#navigation-container:hover {
-  width: 15%;
-}
-
 /* Initially hide nav-item-name */
 .nav-item-name {
-  display: none;
   transition: opacity 0.2s ease-in-out; /* Add opacity transition */
 }
 
@@ -22,7 +16,7 @@
 .search-input {
   display: none;
   opacity: 0;
-  transition: opacity 0.2s ease-in-out; /* Add opacity transition */
+  transition: display 0.2s ease-in-out; /* Add opacity transition */
 }
 
 #navigation-container:hover .search-input {
@@ -33,4 +27,10 @@
 #navigation-container:hover .search-icon {
   display: none;
   transition: opacity 0.2s ease-in-out; /* Add opacity transition */
+}
+
+@media screen and (max-width: 1024px) {
+  #navigation-container .nav-item-name {
+    display: block;
+  }
 }
