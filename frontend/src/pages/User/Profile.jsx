@@ -60,14 +60,14 @@ const Profile = () => {
           <label htmlFor="username" className="block mb-2">
             Name
           </label>
-          <input disabled={edit} id="username" type="text" placeholder="Enter name" className="form-input p-4 rounded-sm w-full" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input disabled={edit} id="username" type="text" placeholder="Enter name" className="form-input p-4 rounded-lg w-full" value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
 
         <div className="mb-4">
           <label htmlFor="email" className="block mb-2">
             Email Address
           </label>
-          <input disabled={edit} id="email" type="email" placeholder="Enter email" className="form-input p-4 rounded-sm w-full" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input disabled={edit} id="email" type="email" placeholder="Enter email" className="form-input p-4 rounded-lg w-full" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
 
         <div className="mb-4">
@@ -79,7 +79,7 @@ const Profile = () => {
             id="password"
             type="password"
             placeholder="Enter password"
-            className="form-input p-4 rounded-sm w-full"
+            className="form-input p-4 rounded-lg w-full"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -94,7 +94,7 @@ const Profile = () => {
             id="confirmPassword"
             type="password"
             placeholder="Confirm password"
-            className="form-input p-4 rounded-sm w-full"
+            className="form-input p-4 rounded-lg w-full"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />

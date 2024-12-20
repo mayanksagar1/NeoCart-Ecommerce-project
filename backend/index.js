@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 // utilities
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
-
+import categoryRouter from "./routes/categoryRoutes.js";
 
 dotenv.config();
 
@@ -21,5 +21,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/users", userRoutes);
+app.use("/api/categories", categoryRouter);
 
 app.listen(port, () => console.log("Server running on the Port : " + port));

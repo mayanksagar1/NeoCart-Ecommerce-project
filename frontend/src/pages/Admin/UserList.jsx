@@ -4,7 +4,6 @@ import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import {useDeleteUserMutation, useGetUsersQuery, useUpdateUserMutation} from "../../redux/api/usersApiSlice";
 import {toast} from "react-toastify";
-// ⚠️⚠️⚠️ don't forget this ⚠️⚠️⚠️⚠️
 import AdminMenu from "./AdminMenu";
 
 const UserList = () => {
@@ -60,12 +59,12 @@ const UserList = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message variant="error">{error?.data?.message || error.error}</Message>
+        <Message variant="error">{error?.data?.message || error.message}</Message>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full md:w-4/5 mx-auto border-collapse border border-gray-200">
             <thead>
-              <tr className="bg-[#4a0a75b0] text-white">
+              <tr className="bg-[#642bd6] text-white">
                 <th scope="col" className="px-4 py-2 text-left border-b border-gray-300">
                   ID
                 </th>
@@ -82,19 +81,25 @@ const UserList = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user, index) => (
-                <tr key={user._id} className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"} odd:bg-gray-50 even:bg-gray-100 hover:bg-gray-200`}>
+              {users.map((user) => (
+                <tr key={user._id} className={` odd:bg-gray-100 even:bg-gray-300 hover:bg-gray-400`}>
                   <td className="px-4 py-2 w-[5%] overflow-clip border-b border-gray-300">{user._id}</td>
                   <td className="px-4 py-2 border-b border-gray-300">
                     {editableUserId === user._id ? (
-                      <div className="flex items-center">
-                        <input type="text" value={editableUserName} onChange={(e) => setEditableUserName(e.target.value)} className="w-full p-2 border rounded-lg" aria-label="Edit user name" />
+                      <div className="flex justify-between items-center">
+                        <input
+                          type="text"
+                          value={editableUserName}
+                          onChange={(e) => setEditableUserName(e.target.value)}
+                          className="w-[10rem] lg:w-full p-2 border rounded-lg"
+                          aria-label="Edit user name"
+                        />
                         <button onClick={() => updateHandler(user._id)} className="ml-2 bg-blue-500 text-white py-2 px-4 rounded-lg" aria-label="Confirm name changes">
                           <FaCheck />
                         </button>
                       </div>
                     ) : (
-                      <div className="flex items-center">
+                      <div className="flex justify-between items-center">
                         {user.username}
                         <button onClick={() => toggleEdit(user._id, user.username, user.email)} aria-label="Edit user" className="ml-2 text-blue-500">
                           <FaEdit />
@@ -104,14 +109,20 @@ const UserList = () => {
                   </td>
                   <td className="px-4 py-2 border-b border-gray-300">
                     {editableUserId === user._id ? (
-                      <div className="flex items-center">
-                        <input type="text" value={editableUserEmail} onChange={(e) => setEditableUserEmail(e.target.value)} className="w-full p-2 border rounded-lg" aria-label="Edit user email" />
+                      <div className="flex justify-between items-center">
+                        <input
+                          type="text"
+                          value={editableUserEmail}
+                          onChange={(e) => setEditableUserEmail(e.target.value)}
+                          className="w-[10rem] lg:w-full p-2 border rounded-lg"
+                          aria-label="Edit user email"
+                        />
                         <button onClick={() => updateHandler(user._id)} className="ml-2 bg-blue-500 text-white py-2 px-4 rounded-lg" aria-label="Confirm email changes">
                           <FaCheck />
                         </button>
                       </div>
                     ) : (
-                      <div className="flex items-center">
+                      <div className="flex justify-between items-center">
                         <a href={`mailto:${user.email}`} className="text-blue-500 underline">
                           {user.email}
                         </a>
