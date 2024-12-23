@@ -47,7 +47,7 @@ const Profile = () => {
     }
   };
   return (
-    <div className="p-4 mb-5 md:w-[90%] w-[100%] border shadow-md">
+    <div className="p-4 bg-white mb-5 rounded-lg md:w-[90%] w-[100%] border-2 shadow-md">
       <h2 className="flex items-center p-3 justify-between font-semibold gap-3">
         Profile
         <button className="border-black border-2 flex items-center gap-2 rounded bg-violet-500 hover:bg-violet-500 p-2 text-white" onClick={() => setEdit(false)}>

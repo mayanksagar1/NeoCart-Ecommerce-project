@@ -5,9 +5,9 @@ import {FaAddressBook} from "react-icons/fa";
 
 const Account = () => {
   return (
-    <section className=" h-[100%] p-4">
+    <section className="  p-4">
       <div className="md:flex-row flex-col flex gap-8 md:mt-[4rem] justify-center align-center">
-        <ul className="p-4 h-fit rounded md:ml-[5rem] w-[100%] md:w-[25%] border shadow-lg">
+        <ul className="p-4 h-fit bg-white rounded-lg lg:ml-[5rem] w-[100%] md:w-[25%] border-2 shadow-lg">
           <li className="rounded hover:font-bold hover:translate-x-2 hover:text-[#7c3aed] hover:bg-black">
             <Link to={"/account/"} className="p-2 flex items-center gap-2">
               <ImProfile size={26} />

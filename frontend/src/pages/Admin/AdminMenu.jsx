@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {NavLink} from "react-router-dom";
 import {FaTimes} from "react-icons/fa";
 import {CgMenuGridR} from "react-icons/cg";
@@ -9,8 +9,6 @@ const AdminMenu = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
-  useEffect(() => console.log("menu component loaded"), []);
 
   return (
     <>

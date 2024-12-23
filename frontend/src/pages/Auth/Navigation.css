@@ -29,7 +29,7 @@
   transition: opacity 0.2s ease-in-out; /* Add opacity transition */
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
   #navigation-container .nav-item-name {
     display: block;
   }

@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {AiOutlineHome, AiOutlineShopping, AiOutlineLogin, AiOutlineUserAdd, AiOutlineShoppingCart} from "react-icons/ai";
 import {FaHeart, FaUser, FaBars, FaTimes} from "react-icons/fa";
+import {IoIosArrowDown} from "react-icons/io";
 import {Link} from "react-router";
 import {useNavigate} from "react-router-dom";
 import "./Navigation.css";
@@ -100,14 +101,7 @@ const Navigation = () => {
             <button onClick={() => toggleDropDownOpen()} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
               <FaUser size={26} className=" mt-[2rem]" />
               <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">{userInfo.username}</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={`hidden nav-item-name h-4 w-4 ml-2 mt-[2rem] transition-all transform ${dropDownOpen ? "transform rotate-180" : ""}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="white">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-              </svg>
+              <IoIosArrowDown className={`hidden  nav-item-name h-4 w-4 ml-2 mt-[2rem] transition-all transform ${dropDownOpen ? "transform rotate-180" : ""}`} />
             </button>
           )}
 

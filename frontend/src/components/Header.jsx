@@ -32,7 +32,7 @@ const Header = () => {
       <div className="">
         <Link to="/cart" className="flex items-center gap-2 rounded  transition-transform transform hover:font-bold hover:translate-x-2 ">
           <AiOutlineShoppingCart size={26} className="" />
-          <span className="font-medium text-lg">Cart</span>
+          <span className="font-medium hidden md:block text-lg">Cart</span>
         </Link>
       </div>
     </header>

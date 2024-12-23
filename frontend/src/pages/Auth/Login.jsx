@@ -32,7 +32,6 @@ const Login = () => {
 
     try {
       const res = await login({email, password}).unwrap();
-      console.log(res);
       dispatch(setCredentials({...res}));
       toast.success("User successfully logged in");
     } catch (error) {
@@ -42,10 +41,10 @@ const Login = () => {
 
   return (
     <div className="h-[100%]">
-      <section className="h-[100%] md:pl-[16vw] p-4 flex gap-6 flex-wrap">
-        <div className="mt-[3rem] lg:w-[40%] w-[100%] ">
+      <section className="h-[100%] lg:pl-[10vw] p-4 flex gap-6 flex-wrap">
+        <div className="mt-[3rem]  lg:w-[40%] w-[100%] ">
           <h1 className="text-3xl font-semibold ">Sign In</h1>
-          <form onSubmit={handleSubmit} className="container  w-[100%]">
+          <form onSubmit={handleSubmit} className="container bg-white rounded-lg p-3 border-2 mt-4 w-[100%]">
             <div className="my-[2rem]">
               <label htmlFor="email" className="block text-xl font-medium">
                 Email
