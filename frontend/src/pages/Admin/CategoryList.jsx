@@ -58,6 +58,7 @@ const CategoryList = () => {
         toast.error(`${res.error}`);
       }
       refetch();
+      setNewCategoryName("");
       toast.success("Category created successfully");
     } catch (error) {
       toast.error("Failed to create category, Try Again.");
@@ -113,7 +114,14 @@ const CategoryList = () => {
 
       <Modal isOpen={isModalOpen} onClose={onModalClose}>
         <div className="w-[60vw]">
-          <CategoryForm setValue={setEditableCategoryName} value={editableCategoryName} isLoading={updatingCategory} handleSubmit={handleUpdateCategory} handleDelete={handleDeleteCategory} />
+          <CategoryForm
+            setValue={setEditableCategoryName}
+            value={editableCategoryName}
+            isLoading={updatingCategory}
+            buttonText="Update"
+            handleSubmit={handleUpdateCategory}
+            handleDelete={handleDeleteCategory}
+          />
         </div>
       </Modal>
     </section>

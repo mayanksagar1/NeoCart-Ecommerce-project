@@ -32,11 +32,11 @@ const AdminMenu = () => {
             <li>
               <NavLink
                 className=" py-2 px-3  block hover:translate-x-2 hover:bg-[#2E2D2D] rounded-sm"
-                to="/admin/categorylist"
+                to="/admin/categories"
                 style={({isActive}) => ({
                   color: isActive ? "greenyellow" : "white",
                 })}>
-                Create Category
+                Manage Category
               </NavLink>
             </li>
             <li>
@@ -62,7 +62,7 @@ const AdminMenu = () => {
             <li>
               <NavLink
                 className=" py-2 px-3 block hover:translate-x-2 hover:bg-[#2E2D2D] rounded-sm"
-                to="/admin/userlist"
+                to="/admin/users"
                 style={({isActive}) => ({
                   color: isActive ? "greenyellow" : "white",
                 })}>
