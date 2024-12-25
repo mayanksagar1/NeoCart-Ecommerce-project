@@ -116,4 +116,95 @@ const fetchAllProducts = asyncHandler(async (req, res) => {
   }
 });
 
-export { createProduct, updateProductById, deleteProductById, fetchProducts, fetchProductById, fetchAllProducts }; 
+const addProductReview = asyncHandler(async (req, res) => {
+  try {
+    const { rating, comment, } = req.body;
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+    }
+    const alreadyReviewed = product.reviews.find((r) => r.user.toString() === req.user._id.toString());
+    if (alreadyReviewed) {
+      res.status(400);
+      throw new Error("Product already reviewed");
+    }
+    const review = {
+      name: req.user.username,
+      rating: Number(rating),
+      comment: comment,
+      user: req.user._id,
+    };
+    product.reviews.push(review);
+
+    product.numReviews = product.reviews.length;
+    product.ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+
+    await product.save();
+    res.status(201).json({ message: "Review successfully added" });
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+});
+
+const updateProductReview = asyncHandler(async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+    }
+    const review = product.reviews.find((r) => r.user.toString() === req.user._id.toString());
+    if (!review) {
+      res.status(404).json({ error: "Review not found" });
+    }
+    review.rating = Number(rating);
+    review.comment = comment;
+
+    product.numReviews = product.reviews.length;
+    product.ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+
+    await product.save();
+    res.json({ message: "Review updated successfully" });
+  } catch (error) {
+    console.log(error);
+    throw new Error("Internal server error");
+  }
+});
+
+
+const fetchTopProducts = asyncHandler(async (req, res) => {
+  try {
+    const page = req.query.page;
+    const products = await Product.find({}).sort({ ratings: -1 }).skip((page - 1) * 4).limit(4);
+    res.json(products);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Internal server error");
+  }
+});
+
+const fetchNewProducts = asyncHandler(async (req, res) => {
+  try {
+    const page = req.query.page;
+    const products = await Product.find({}).sort({ _id: -1 }).skip((page - 1) * 4).limit(4);
+    res.json(products);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Internal server error");
+  }
+});
+
+
+export {
+  createProduct,
+  updateProductById,
+  deleteProductById,
+  fetchProducts,
+  fetchProductById,
+  fetchAllProducts,
+  addProductReview,
+  updateProductReview,
+  fetchTopProducts,
+  fetchNewProducts,
+}; 
