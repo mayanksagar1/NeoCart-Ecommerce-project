@@ -2,7 +2,6 @@ import Product from "../models/productModel.js";
 import asyncHandler from "../middleware/asyncHandler.js";
 import cloudinary from "../config/cloudinary.js";
 import fs from "fs";
-import { error } from "console";
 
 const createProduct = asyncHandler(async (req, res) => {
   try {
@@ -40,7 +39,7 @@ const createProduct = asyncHandler(async (req, res) => {
       fs.unlinkSync(file.path);
     }
 
-    const product = new Product({ ...req.fields, images: imageUrls });
+    const product = new Product({ ...req.body, images: imageUrls });
     await product.save();
     res.json(product);
   } catch (error) {
