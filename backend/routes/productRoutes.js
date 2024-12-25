@@ -13,12 +13,13 @@ import {
   fetchTopProducts,
   fetchNewProducts,
 } from "../controllers/productController.js";
+import upload from "../config/multer.js";
 
 const router = express.Router();
 
 router.route("/")
   .get(fetchProducts)
-  .post(authenticate, authorizeAdmin, formidable(), createProduct);
+  .post(authenticate, authorizeAdmin, upload.array("images", 12), createProduct);
 
 router.route("/all").get(fetchAllProducts);
 

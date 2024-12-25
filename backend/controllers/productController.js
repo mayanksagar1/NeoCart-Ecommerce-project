@@ -1,9 +1,12 @@
 import Product from "../models/productModel.js";
 import asyncHandler from "../middleware/asyncHandler.js";
+import cloudinary from "../config/cloudinary.js";
+import fs from "fs";
+import { error } from "console";
 
 const createProduct = asyncHandler(async (req, res) => {
   try {
-    const { name, brand, price, description, quantity, category } = req.fields;
+    const { name, brand, price, description, quantity, category } = req.body;
     // validation
     switch (true) {
       case !name:
@@ -19,7 +22,25 @@ const createProduct = asyncHandler(async (req, res) => {
       case !quantity:
         return res.json({ error: "Quantity is required" });
     }
-    const product = new Product({ ...req.fields });
+
+    // for storing the cloudinary urls
+    const imageUrls = [];
+
+    // looping over each file .
+    for (const file of req.files) {
+      // uploading each file to cloudinary
+      const result = await cloudinary.uploader.upload(file.path, {
+        folder: "products",
+      });
+
+      // pushing the link received from cloudinary
+      imageUrls.push(result.secure_url);
+
+      // delete the file from the local server
+      fs.unlinkSync(file.path);
+    }
+
+    const product = new Product({ ...req.fields, images: imageUrls });
     await product.save();
     res.json(product);
   } catch (error) {
