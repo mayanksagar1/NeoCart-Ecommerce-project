@@ -83,7 +83,7 @@ const CategoryList = () => {
 
   return (
     <section className="p-4 relative">
-      <h1 className="text-2xl md:pl-[10rem] mb-4 text-center md:text-left font-semibold ">Manage Categories</h1>
+      <h1 className="text-2xl md:pl-[10rem] mt-4 mb-4 text-center md:text-left font-bold ">Manage Categories</h1>
       <AdminMenu />
       <div className="m-auto rounded-lg border-2 bg-white w-fit">
         {isLoading ? (

@@ -9,8 +9,12 @@ import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import categoryRouter from "./routes/categoryRoutes.js";
 import productRouter from "./routes/productRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
+import { connectCloudinary } from "./config/cloudinary.js";
 
 dotenv.config();
+
+connectCloudinary();
 
 connectDB();
 
@@ -24,5 +28,6 @@ app.use(cookieParser());
 app.use("/api/users", userRoutes);
 app.use("/api/categories", categoryRouter);
 app.use("/api/products", productRouter);
+app.use("/api/uploads", uploadRoutes);
 
 app.listen(port, () => console.log("Server running on the Port : " + port));

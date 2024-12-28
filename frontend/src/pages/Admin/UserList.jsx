@@ -54,9 +54,9 @@ const UserList = () => {
 
   return (
     <section className="p-4 relative">
-      <h1 className="text-2xl pl-[10rem] font-semibold mb-4">Users</h1>
+      <h1 className="text-2xl pl-[10rem] font-bold mb-4">Users</h1>
       <AdminMenu />
-      <div className="m-auto w-fit">
+      <div className="">
         {isLoading ? (
           <Loader />
         ) : error ? (

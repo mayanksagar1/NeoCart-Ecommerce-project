@@ -1,7 +1,6 @@
 import Product from "../models/productModel.js";
 import asyncHandler from "../middleware/asyncHandler.js";
-import cloudinary from "../config/cloudinary.js";
-import fs from "fs";
+
 
 const createProduct = asyncHandler(async (req, res) => {
   try {
@@ -21,25 +20,7 @@ const createProduct = asyncHandler(async (req, res) => {
       case !quantity:
         return res.json({ error: "Quantity is required" });
     }
-
-    // for storing the cloudinary urls
-    const imageUrls = [];
-
-    // looping over each file .
-    for (const file of req.files) {
-      // uploading each file to cloudinary
-      const result = await cloudinary.uploader.upload(file.path, {
-        folder: "products",
-      });
-
-      // pushing the link received from cloudinary
-      imageUrls.push(result.secure_url);
-
-      // delete the file from the local server
-      fs.unlinkSync(file.path);
-    }
-
-    const product = new Product({ ...req.body, images: imageUrls });
+    const product = new Product({ ...req.body });
     await product.save();
     res.json(product);
   } catch (error) {
@@ -50,7 +31,7 @@ const createProduct = asyncHandler(async (req, res) => {
 
 const updateProductById = asyncHandler(async (req, res) => {
   try {
-    const { name, brand, price, description, quantity, category } = req.fields;
+    const { name, brand, price, description, quantity, category } = req.body;
     // validation
     switch (true) {
       case !name:
@@ -66,7 +47,7 @@ const updateProductById = asyncHandler(async (req, res) => {
       case !quantity:
         return res.json({ error: "Quantity is required" });
     }
-    const product = await Product.findByIdAndUpdate(req.params.id, { ...req.fields }, { new: true });
+    const product = await Product.findByIdAndUpdate(req.params.id, { ...req.body }, { new: true });
     await product.save();
     res.json(product);
   } catch (error) {
@@ -87,13 +68,19 @@ const deleteProductById = asyncHandler(async (req, res) => {
 
 const fetchProducts = asyncHandler(async (req, res) => {
   try {
+    const keyword = req.query.keyword;
     const page = req.query.page || 1;
     const limit = 6;
+    const filter = keyword ? {
+      name: { $regex: keyword, $options: "i" },
+      description: { $regex: keyword, $options: "i" },
+      brand: { $regex: keyword, $options: "i" }
+    } : {};
 
 
     const skip = (page - 1) * limit;
 
-    const products = await Product.find().skip(skip).limit(limit);
+    const products = await Product.find(filter).skip(skip).limit(limit);
     const totalCount = await Product.countDocuments();
 
     res.json({
@@ -125,10 +112,7 @@ const fetchProductById = asyncHandler(async (req, res) => {
 
 const fetchAllProducts = asyncHandler(async (req, res) => {
   try {
-    const page = req.query.page || 1;
-    const skip = (page - 1) * 12;
-    const products = await Product.find({}).populate("category").sort({ createdAt: -1 }).skip(skip).limit(12);
-
+    const products = await Product.find({}).populate("category").sort({ createdAt: -1 });
     res.json(products);
   } catch (error) {
     console.log(error);
@@ -197,7 +181,12 @@ const fetchTopProducts = asyncHandler(async (req, res) => {
   try {
     const page = req.query.page;
     const products = await Product.find({}).sort({ ratings: -1 }).skip((page - 1) * 4).limit(4);
-    res.json(products);
+    const totalCount = await Product.countDocuments({});
+    res.json({
+      products,
+      page: page,
+      totalPages: Math.ceil(totalCount / 4)
+    });
   } catch (error) {
     console.log(error);
     throw new Error("Internal server error");
@@ -208,7 +197,12 @@ const fetchNewProducts = asyncHandler(async (req, res) => {
   try {
     const page = req.query.page;
     const products = await Product.find({}).sort({ _id: -1 }).skip((page - 1) * 4).limit(4);
-    res.json(products);
+    const totalCount = await Product.countDocuments();
+    res.json({
+      products,
+      page: page,
+      totalPages: Math.ceil(totalCount / 4)
+    });
   } catch (error) {
     console.log(error);
     throw new Error("Internal server error");

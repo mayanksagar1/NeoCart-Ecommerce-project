@@ -12,12 +12,12 @@ const AdminMenu = () => {
 
   return (
     <>
-      <button className={`${isMenuOpen ? "top-0 right-7" : "top-0 right-7"} z-10 bg-[#151515] p-2 absolute rounded-lg`} onClick={toggleMenu}>
+      <button className={`${isMenuOpen ? "top-5 right-7" : "top-5 right-7"} z-5 bg-[#151515] p-2 absolute rounded-lg`} onClick={toggleMenu}>
         {isMenuOpen ? <FaTimes color="white" /> : <CgMenuGridR size={20} color="white" />}
       </button>
 
       {isMenuOpen && (
-        <section className="bg-[#151515] rounded-md p-4 absolute right-10 top-5">
+        <section className="bg-[#151515] rounded-md p-4 absolute right-10 top-10">
           <ul className="list-none ">
             <li>
               <NavLink
@@ -42,7 +42,7 @@ const AdminMenu = () => {
             <li>
               <NavLink
                 className=" py-2 px-3 block hover:translate-x-2  hover:bg-[#2E2D2D] rounded-sm"
-                to="/admin/productlist"
+                to="/admin/products/add"
                 style={({isActive}) => ({
                   color: isActive ? "greenyellow" : "white",
                 })}>
@@ -52,7 +52,7 @@ const AdminMenu = () => {
             <li>
               <NavLink
                 className=" py-2 px-3 block hover:translate-x-2 hover:bg-[#2E2D2D] rounded-sm"
-                to="/admin/allproductslist"
+                to="/admin/products/list"
                 style={({isActive}) => ({
                   color: isActive ? "greenyellow" : "white",
                 })}>
