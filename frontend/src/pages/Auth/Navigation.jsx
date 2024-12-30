@@ -96,7 +96,7 @@ const Navigation = () => {
           </Link>
         </div>
 
-        <div className="p-3 relative">
+        <div className="p-3 mb-3 relative">
           {userInfo && (
             <button onClick={() => toggleDropDownOpen()} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
               <FaUser size={26} className=" mt-[2rem]" />
@@ -118,7 +118,10 @@ const Navigation = () => {
                 </li>
               )}
               <li>
-                <Link onClick={closeSidebar} to="/account" className="block text-sm px-2 mx-2 py-2 hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
+                <Link
+                  onClick={closeSidebar}
+                  to="/account/profile"
+                  className="block text-sm px-2 mx-2 py-2 hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
                   Account
                 </Link>
               </li>

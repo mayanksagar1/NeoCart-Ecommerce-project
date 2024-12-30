@@ -12,12 +12,12 @@ const AdminMenu = () => {
 
   return (
     <>
-      <button className={`${isMenuOpen ? "top-5 right-7" : "top-5 right-7"} z-5 bg-[#151515] p-2 absolute rounded-lg`} onClick={toggleMenu}>
+      <button className={`${isMenuOpen ? "top-5 right-7" : "top-5 right-7"} z-10 bg-[#151515] p-2 absolute rounded-lg`} onClick={toggleMenu}>
         {isMenuOpen ? <FaTimes color="white" /> : <CgMenuGridR size={20} color="white" />}
       </button>
 
       {isMenuOpen && (
-        <section className="bg-[#151515] rounded-md p-4 absolute right-10 top-10">
+        <section className="bg-[#151515] rounded-md p-4 z-10 absolute right-10 top-10">
           <ul className="list-none ">
             <li>
               <NavLink

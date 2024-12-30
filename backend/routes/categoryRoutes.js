@@ -5,7 +5,10 @@ import {
   getCategories,
   getCategoryById,
   removeCategoryById,
-  updateCategoryById
+  updateCategoryById,
+  createSubCategory,
+  updateSubCategory,
+  removeSubCategory
 } from "../controllers/categoryController.js";
 
 const router = express.Router();
@@ -18,5 +21,9 @@ router.route("/:id")
   .get(getCategoryById)
   .put(authenticate, authorizeAdmin, updateCategoryById)
   .delete(authenticate, authorizeAdmin, removeCategoryById);
+
+router.route("/:id/subCategory").post(authenticate, authorizeAdmin, createSubCategory);
+
+router.route("/:categoryId/:subCategoryId").put(authenticate, authorizeAdmin, updateSubCategory).delete(authenticate, authorizeAdmin, removeSubCategory);
 
 export default router;

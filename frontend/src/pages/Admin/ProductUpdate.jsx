@@ -244,7 +244,7 @@ const ProductUpdate = () => {
             <button
               disabled={isUpdating || isDeleting || isUploading}
               onClick={handleSubmit}
-              className="py-3 px-6 flex gap-1 items-center rounded-lg text-lg border-2 border-black text-white font-bold bg-violet-500 hover:bg-violet-700">
+              className="py-2 px-4 md:py-3 md:px-6 flex gap-1 items-center rounded-lg text-lg border-2 border-black text-white font-bold bg-violet-500 hover:bg-violet-700">
               {isUpdating || isUploading ? (
                 <BtnLoader />
               ) : (
@@ -257,7 +257,7 @@ const ProductUpdate = () => {
             <button
               disabled={isUpdating || isDeleting || isUploading}
               onClick={handleDelete}
-              className="py-3 px-6 flex gap-1 items-center rounded-lg text-lg border-2 border-black text-white font-bold bg-red-500 hover:bg-red-700">
+              className="py-2 px-4 md:py-3 md:px-6 flex gap-1 items-center rounded-lg text-lg border-2 border-black text-white font-bold bg-red-500 hover:bg-red-700">
               {isDeleting ? (
                 <BtnLoader />
               ) : (

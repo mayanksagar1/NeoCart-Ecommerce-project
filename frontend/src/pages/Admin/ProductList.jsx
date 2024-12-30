@@ -11,7 +11,7 @@ const ProductList = () => {
     return <Loader />;
   }
   if (isError) {
-    return <div className="m-auto mt-5">Error Loading products</div>;
+    return <div className="m-auto w-fit mt-5">Error Loading products</div>;
   }
   return (
     <>
@@ -29,9 +29,9 @@ const ProductList = () => {
               </div>
             )}
             {products.map((product) => (
-              <div key={product._id} className="flex gap-3 items-center flex-col md:flex-row md:items-stretch">
-                <img src={product?.images[0]} loading="lazy" alt={product?.name} className="w-[15rem] h-[15rem] border-2  rounded-lg object-cover" />
-                <div className="flex flex-1 flex-col w-full border-2 rounded-lg justify-around p-3">
+              <div key={product._id} className="flex gap-3 border-2 md:border-0  rounded-lg items-center flex-col md:flex-row md:items-stretch">
+                <img src={product?.images[0]} loading="lazy" alt={product?.name} className="w-full md:w-[15rem] h-[15rem]   md:border-2 rounded-lg object-cover" />
+                <div className="flex flex-1 flex-col w-full md:border-2  rounded-lg justify-around p-3">
                   <div className="flex justify-between">
                     <h5 className="text-xl font-semibold mb-2">{product?.name}</h5>
                     <p className="text-gray-400 text-xs">{moment(product.createdAt).format("MMMM Do YYYY")}</p>

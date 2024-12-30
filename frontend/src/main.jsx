@@ -6,16 +6,20 @@ import {RouterProvider} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from "./redux/store.js";
 
-// importing private routes.
-import PrivateRoute from "./components/PrivateRoute.jsx";
+// imports for non registrable routes
+import Home from "./Home.jsx";
 
 // importing Auth pages
 import Login from "./pages/Auth/Login.jsx";
 import Register from "./pages/Auth/Register.jsx";
 
+// importing private routes.
+import PrivateRoute from "./components/PrivateRoute.jsx";
+
 // user pages
 import Account from "./pages/User/Account.jsx";
 import Profile from "./pages/User/Profile.jsx";
+import Orders from "./pages/User/Orders.jsx";
 
 // admin
 import AdminRoute from "./pages/Admin/AdminRoute.jsx";
@@ -29,10 +33,15 @@ import ProductUpdate from "./pages/Admin/ProductUpdate.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/" element={<Home />} />
+
       <Route path="" element={<PrivateRoute />}>
         {/* user routes */}
         <Route path="/account" element={<Account />}>
-          <Route path="/account/" element={<Profile />} />
+          <Route path="/account/profile" element={<Profile />} />
+          <Route path="/account/orders" element={<Orders />} />
         </Route>
         {/* Admin routes */}
         <Route path="/admin" element={<AdminRoute />}>
@@ -44,9 +53,6 @@ const router = createBrowserRouter(
           <Route path="/admin/products/update/:_id" element={<ProductUpdate />} />
         </Route>
       </Route>
-
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
     </Route>,
   ),
 );

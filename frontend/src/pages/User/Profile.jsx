@@ -4,7 +4,7 @@ import {setCredentials} from "../../redux/features/auth/authSlice";
 import {useProfileMutation} from "../../redux/api/usersApiSlice";
 import Loader from "../../components/Loader";
 import {toast} from "react-toastify";
-import {MdEditSquare} from "react-icons/md";
+import {MdEditSquare, MdUpload} from "react-icons/md";
 
 const Profile = () => {
   const [edit, setEdit] = useState(true);
@@ -101,8 +101,9 @@ const Profile = () => {
         </div>
 
         <div className="flex justify-between">
-          <button disabled={edit} type="submit" className="border-black border-2 bg-violet-500 text-white py-2 px-4 rounded hover:bg-violet-600">
-            Update
+          <button disabled={edit} type="submit" className="flex items-center gap-1 border-black border-2 bg-violet-500 text-white py-2 px-4 rounded hover:bg-violet-600">
+            <MdUpload size={20} />
+            <span>Update</span>
           </button>
         </div>
         {loadingUpdateProfile && <Loader />}
