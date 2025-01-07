@@ -1,8 +1,19 @@
-const CategoryForm = ({value, setValue, isLoading, handleSubmit, buttonText = "Submit", handleDelete}) => {
+const CategoryForm = ({name, setName, parentCategory, setParentCategory, isLoading, handleSubmit, categories, buttonText = "Submit", handleDelete}) => {
   return (
     <div className="p-3 ">
       <form onSubmit={handleSubmit}>
-        <input className="p-3 bg-slate-100 rounded-lg border-2 w-full" type="text" placeholder="Create category" value={value} onChange={(e) => setValue(e.target.value)} />
+        <input className="p-3 bg-slate-100 rounded-lg border-2 w-full" type="text" placeholder="Create category" value={name} onChange={(e) => setName(e.target.value)} />
+        <div className="">
+          <label className="block font-semibold p-3">Parent Category (Optional)</label>
+          <select value={parentCategory} onChange={(e) => setParentCategory(e.target.value)} className="border-2 bg-slate-100 rounded-lg p-3 w-full">
+            <option value="">None (Head Category)</option>
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div
           className="flex mt-5
          justify-between">

@@ -2,8 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .scrollbar-custom {
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #94a3b8 #f1f5f9; /* Thumb and Track colors */
+
+    /* WebKit-based browsers (Chrome, Edge, Safari) */
+    &::-webkit-scrollbar {
+      width: 8px; /* Width of the scrollbar */
+      height: 8px; /* Height for horizontal scrollbars */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #6f7a89; /* Thumb color */
+      border-radius: 4px; /* Rounded thumb */
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #64748b; /* Darker color on hover */
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #f1f5f9; /* Track color */
+    }
+
+    &::-webkit-scrollbar-track:hover {
+      background-color: #e2e8f0; /* Track hover color */
+    }
+  }
+}
+
 body {
   background: #f4f2ee;
+}
+/* Override the default slick-dots styles */
+.slick-dots {
+  display: flex !important; /* Ensure proper alignment */
+  justify-content: center;
+  margin-top: 1rem; /* Add spacing above dots */
+}
+
+.slick-dots li {
+  width: auto !important; /* Remove the 20px width limitation */
+  margin: 0 5px; /* Add some spacing between dots */
+}
+
+.slick-dots li img {
+  width: 50px; /* Set custom width for preview images */
+  height: 50px; /* Set custom height for preview images */
+  object-fit: cover; /* Ensure the image fits properly */
+  border-radius: 8px; /* Optional: Rounded corners */
+  border: 2px solid transparent; /* Optional: Border for selected state */
+}
+
+.slick-dots li.slick-active img {
+  border-color: #ff5a5f; /* Highlight active preview image */
+}
+
+.slick-dots li.slick-active div {
+  @apply bg-gray-700;
 }
 
 /* input,

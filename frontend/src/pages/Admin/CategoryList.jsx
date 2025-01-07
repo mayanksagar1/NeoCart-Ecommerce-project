@@ -9,9 +9,11 @@ import Modal from "../../components/Modal";
 
 const CategoryList = () => {
   const [newCategoryName, setNewCategoryName] = useState("");
+  const [newParentCategory, setNewParentCategory] = useState("");
 
   const [editableCategoryName, setEditableCategoryName] = useState("");
   const [editableCategory, setEditableCategory] = useState(null);
+  const [editableParentCategory, setEditableParentCategory] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,6 +25,7 @@ const CategoryList = () => {
   const onModalClose = () => {
     setEditableCategory(null);
     setEditableCategoryName("");
+    setEditableParentCategory("");
     setIsModalOpen(false);
   };
 
@@ -34,7 +37,7 @@ const CategoryList = () => {
     }
 
     try {
-      const res = await updateCategory({id: editableCategory._id, data: {name: editableCategoryName}}).unwrap();
+      const res = await updateCategory({id: editableCategory._id, data: {name: editableCategoryName, parentCategory: editableParentCategory || null}}).unwrap();
       if (res.error) {
         toast.error(`${res.error}`);
       }
@@ -53,12 +56,13 @@ const CategoryList = () => {
       return;
     }
     try {
-      const res = await createCategory({name: newCategoryName}).unwrap();
+      const res = await createCategory({name: newCategoryName, parentCategory: newParentCategory || null}).unwrap();
       if (res.error) {
         toast.error(`${res.error}`);
       }
       refetch();
       setNewCategoryName("");
+      setNewParentCategory("");
       toast.success("Category created successfully");
     } catch (error) {
       toast.error("Failed to create category, Try Again.");
@@ -92,7 +96,15 @@ const CategoryList = () => {
           <Message variant="error">{error?.data?.message || error.message}</Message>
         ) : (
           <div className=" w-[85vw]">
-            <CategoryForm value={newCategoryName} setValue={setNewCategoryName} isLoading={creatingCategory} handleSubmit={handleCreateCategory} />
+            <CategoryForm
+              name={newCategoryName}
+              setName={setNewCategoryName}
+              parentCategory={newParentCategory}
+              setParentCategory={setNewParentCategory}
+              isLoading={creatingCategory}
+              handleSubmit={handleCreateCategory}
+              categories={categories}
+            />
             <hr />
             <div className="flex p-3 gap-4 flex-wrap">
               {categories?.map((category) => (
@@ -102,6 +114,7 @@ const CategoryList = () => {
                   onClick={() => {
                     setEditableCategory(category);
                     setEditableCategoryName(category.name);
+                    setEditableParentCategory(category.parentCategory || "");
                     setIsModalOpen(true);
                   }}>
                   {category.name}
@@ -115,8 +128,11 @@ const CategoryList = () => {
       <Modal isOpen={isModalOpen} onClose={onModalClose}>
         <div className="w-[60vw]">
           <CategoryForm
-            setValue={setEditableCategoryName}
-            value={editableCategoryName}
+            setName={setEditableCategoryName}
+            name={editableCategoryName}
+            parentCategory={editableParentCategory}
+            setParentCategory={setEditableParentCategory}
+            categories={categories}
             isLoading={updatingCategory}
             buttonText="Update"
             handleSubmit={handleUpdateCategory}

@@ -1,13 +1,5 @@
 import mongoose from 'mongoose';
 
-const subCategorySchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    maxLength: 32,
-    unique: true,
-  }
-});
 
 const categorySchema = mongoose.Schema({
   name: {
@@ -16,7 +8,11 @@ const categorySchema = mongoose.Schema({
     maxLength: 32,
     unique: true,
   },
-  subCategories: [subCategorySchema]
+  parentCategory: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    default: null,
+  }
 });
 
 const Category = mongoose.model("Category", categorySchema);

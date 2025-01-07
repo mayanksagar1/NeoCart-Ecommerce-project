@@ -8,7 +8,7 @@ const Account = () => {
     <section className="  p-4">
       <div className="md:flex-row flex-col flex gap-6 md:mt-[2rem] justify-center align-center">
         <ul className="p-4 h-fit bg-white rounded-lg lg:ml-[10rem] w-[100%] md:w-[25%] border-2 shadow-lg">
-          <li className="rounded hover:font-bold  hover:text-[#7c3aed] hover:bg-black">
+          <li className="rounded hover:font-bold m-1 hover:text-[#7c3aed] hover:bg-black">
             <NavLink
               to={"/account/profile"}
               style={({isActive}) => ({
@@ -22,7 +22,7 @@ const Account = () => {
               Profile
             </NavLink>
           </li>
-          <li className="rounded hover:font-bold  hover:text-[#7c3aed] hover:bg-black">
+          <li className="rounded hover:font-bold m-1 hover:text-[#7c3aed] hover:bg-black">
             <NavLink
               to={"/account/orders"}
               style={({isActive}) => ({
@@ -36,7 +36,7 @@ const Account = () => {
               Your Orders
             </NavLink>
           </li>
-          <li className="rounded hover:font-bold  hover:text-[#7c3aed] hover:bg-black">
+          <li className="rounded hover:font-bold m-1  hover:text-[#7c3aed] hover:bg-black">
             <NavLink
               to={"/account/addresses"}
               style={({isActive}) => ({

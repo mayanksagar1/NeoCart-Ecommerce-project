@@ -4,9 +4,9 @@ import { apiSlice } from "./apiSlice.js";
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     fetchProducts: builder.query({
-      query: () => ({
+      query: (keyword, page) => ({
         url: `${PRODUCTS_URL}`,
-        params: { keyword, page }
+        params: { keyword, page },
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Products"],
@@ -15,6 +15,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     getProductById: builder.query({
       query: (productId) => `${PRODUCTS_URL}/${productId}`,
       providesTags: (result, error, productId) => [{ type: "Products", id: productId }],
+      keepUnusedDataFor: 5,
     }),
 
     getAllProducts: builder.query({
@@ -82,13 +83,22 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
     }),
 
+    getProductsByCategory: builder.query({
+      query: (category, page) => ({
+        url: `${PRODUCTS_URL}/category`,
+        method: "GET",
+        params: { category, page },
+      }),
+      keepUnusedDataFor: 5,
+      providesTags: ["Products"],
+    }),
+
     uploadImages: builder.mutation({
       query: (data) => ({
         url: `${UPLOADS_URL}/`,
         method: "POST",
         body: data
       }),
-
     })
 
   })
@@ -105,5 +115,6 @@ export const {
   useUpdateProductReviewMutation,
   useGetTopProductsQuery,
   useGetNewProductsQuery,
-  useUploadImagesMutation
+  useUploadImagesMutation,
+  useGetProductsByCategoryQuery,
 } = productsApiSlice;

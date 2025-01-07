@@ -15,7 +15,7 @@ const Header = () => {
     }
   };
   return (
-    <header className="p-2 m-auto flex items-center justify-evenly md:pl-2  pl-[4rem] bg-white z-10 sticky top-0 h-[8%]">
+    <header className="p-2 m-auto flex items-center justify-evenly md:pl-2  pl-[4rem] bg-white z-40 sticky top-0 h-[8%]">
       <div className="flex items-center rounded-lg shadow-sm p-2 gap-2 border bg-slate-200">
         <CiSearch size={22} className="text-slate-700" onClick={handleSearchIconClick} />
         <input

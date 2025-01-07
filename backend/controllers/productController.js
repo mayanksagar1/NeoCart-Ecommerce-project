@@ -70,18 +70,19 @@ const fetchProducts = asyncHandler(async (req, res) => {
   try {
     const keyword = req.query.keyword;
     const page = req.query.page || 1;
-    const limit = 6;
+    const limit = 8;
     const filter = keyword ? {
-      name: { $regex: keyword, $options: "i" },
-      description: { $regex: keyword, $options: "i" },
-      brand: { $regex: keyword, $options: "i" }
+      $or: [
+        { name: { $regex: keyword, $options: "i" } },
+        { description: { $regex: keyword, $options: "i" } },
+        { brand: { $regex: keyword, $options: "i" } },
+      ],
     } : {};
-
 
     const skip = (page - 1) * limit;
 
     const products = await Product.find(filter).skip(skip).limit(limit);
-    const totalCount = await Product.countDocuments();
+    const totalCount = await Product.countDocuments(filter);
 
     res.json({
       products,
@@ -102,7 +103,9 @@ const fetchProductById = asyncHandler(async (req, res) => {
       return res.status(401).json({ error: "Product id not given" });
     }
     const product = await Product.findById(id);
-    if (!product) { }
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+    }
     res.json(product);
   } catch (error) {
     console.log(error);
@@ -179,14 +182,8 @@ const updateProductReview = asyncHandler(async (req, res) => {
 
 const fetchTopProducts = asyncHandler(async (req, res) => {
   try {
-    const page = req.query.page;
-    const products = await Product.find({}).sort({ ratings: -1 }).skip((page - 1) * 4).limit(4);
-    const totalCount = await Product.countDocuments({});
-    res.json({
-      products,
-      page: page,
-      totalPages: Math.ceil(totalCount / 4)
-    });
+    const products = await Product.find({}).sort({ ratings: -1 }).limit(4);
+    res.json(products);
   } catch (error) {
     console.log(error);
     throw new Error("Internal server error");
@@ -195,20 +192,38 @@ const fetchTopProducts = asyncHandler(async (req, res) => {
 
 const fetchNewProducts = asyncHandler(async (req, res) => {
   try {
-    const page = req.query.page;
-    const products = await Product.find({}).sort({ _id: -1 }).skip((page - 1) * 4).limit(4);
-    const totalCount = await Product.countDocuments();
-    res.json({
-      products,
-      page: page,
-      totalPages: Math.ceil(totalCount / 4)
-    });
+    const products = await Product.find({}).sort({ _id: -1 }).limit(4);
+    res.json(products);
   } catch (error) {
     console.log(error);
     throw new Error("Internal server error");
   }
 });
 
+const fetchProductsByCategory = asyncHandler(async (req, res) => {
+  try {
+    const categoryId = req.query.categoryId;
+    const page = req.query.page || 1;
+    const limit = 8;
+    const filter = categoryId ? {
+      category: categoryId,
+    } : {};
+
+    const skip = (page - 1) * limit;
+
+    const products = await Product.find(filter).skip(skip).limit(limit);
+    const totalCount = await Product.countDocuments(filter);
+
+    res.json({
+      products,
+      page: page,
+      totalPages: Math.ceil(totalCount / limit),
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 export {
   createProduct,
@@ -221,4 +236,5 @@ export {
   updateProductReview,
   fetchTopProducts,
   fetchNewProducts,
+  fetchProductsByCategory,
 }; 

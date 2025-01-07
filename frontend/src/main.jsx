@@ -6,8 +6,9 @@ import {RouterProvider} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from "./redux/store.js";
 
-// imports for non registrable routes
-import Home from "./Home.jsx";
+// imports for simple routes
+import Home from "./pages/Home.jsx";
+import Favorites from "./pages/Products/Favorites.jsx";
 
 // importing Auth pages
 import Login from "./pages/Auth/Login.jsx";
@@ -29,13 +30,16 @@ import CategoryList from "./pages/Admin/CategoryList.jsx";
 import ProductList from "./pages/Admin/ProductList.jsx";
 import CreateProduct from "./pages/Admin/CreateProduct.jsx";
 import ProductUpdate from "./pages/Admin/ProductUpdate.jsx";
+import ProductDetails from "./pages/Products/ProductDetails.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/" element={<Home />} />
+      <Route index={true} path="/" element={<Home />} />
+      <Route path="/favorites" element={<Favorites />} />
+      <Route path="/product/:id" element={<ProductDetails />} />
 
       <Route path="" element={<PrivateRoute />}>
         {/* user routes */}

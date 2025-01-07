@@ -11,6 +11,7 @@ import {
   updateProductReview,
   fetchTopProducts,
   fetchNewProducts,
+  fetchProductsByCategory,
 } from "../controllers/productController.js";
 
 const router = express.Router();
@@ -23,6 +24,8 @@ router.route("/all").get(fetchAllProducts);
 
 router.route("/top").get(fetchTopProducts);
 router.route("/new").get(fetchNewProducts);
+
+router.route("/category").get(fetchProductsByCategory);
 
 router.route("/:id")
   .get(fetchProductById)

@@ -11,6 +11,7 @@ import {logOut} from "../../redux/features/auth/authSlice";
 import appLogo from "../../assets/logo.svg";
 import appLogoSmall from "../../assets/logoSmall.svg";
 import {toast} from "react-toastify";
+import FavoritesCount from "../Products/FavoritesCount..";
 
 const Navigation = () => {
   const {userInfo} = useSelector((state) => state.auth);
@@ -90,9 +91,10 @@ const Navigation = () => {
             <AiOutlineShoppingCart size={26} className=" mt-[2rem]" />
             <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Cart</span>
           </Link>
-          <Link to="/favorite" onClick={closeSidebar} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
+          <Link to="/favorites" onClick={closeSidebar} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
             <FaHeart size={26} className=" mt-[2rem]" />
-            <span className="hidden nav-item-name pl-[1rem]  mt-[2rem]">Favorite</span>
+            <span className="hidden nav-item-name pl-[1rem]  mt-[2rem]">Favorites</span>
+            <FavoritesCount />
           </Link>
         </div>
 
@@ -153,7 +155,7 @@ const Navigation = () => {
           )}
         </div>
       </div>
-      {showSidebar && <div className="fixed inset-0 bg-black opacity-60 z-30" onClick={closeSidebar}></div>}
+      {showSidebar && <div className="fixed inset-0 bg-black opacity-60 z-[45]" onClick={closeSidebar}></div>}
     </>
   );
 };

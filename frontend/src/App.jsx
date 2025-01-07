@@ -10,7 +10,7 @@ function App() {
       <ToastContainer />
       <Navigation />
       <Header />
-      <main className="py-3">
+      <main className="py-3 scrollbar-custom">
         <Outlet />
       </main>
     </>

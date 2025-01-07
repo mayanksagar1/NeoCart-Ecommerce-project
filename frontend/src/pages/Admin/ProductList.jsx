@@ -21,11 +21,13 @@ const ProductList = () => {
         <div className="m-auto rounded-lg border-2 bg-white w-fit">
           <div className="p-3 w-[85vw] gap-3 flex flex-col  ">
             {products.length === 0 && (
-              <div className="text-center font-semibold text-lg p-5">
-                No Products found.{" "}
-                <Link className="text-pink-500" to={"/admin/products/add"}>
-                  Create Product{" "}
-                </Link>{" "}
+              <div className="flex flex-col items-center justify-center text-center mt-10 p-5">
+                <FaBoxOpen className="text-gray-400 text-6xl mb-4" />
+                <h2 className="text-xl font-medium text-gray-600 mb-2">No Products Found</h2>
+                <p className="text-gray-500 mb-6">It looks like you haven’t added any products yet. Create your first product to get started!</p>
+                <Link to="/admin/products/add" className="bg-violet-500 text-white py-2 px-4 rounded-lg hover:bg-violet-600 transition duration-300">
+                  Create Product
+                </Link>
               </div>
             )}
             {products.map((product) => (
