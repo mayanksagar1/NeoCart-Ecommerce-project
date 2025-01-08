@@ -21,6 +21,7 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import Account from "./pages/User/Account.jsx";
 import Profile from "./pages/User/Profile.jsx";
 import Orders from "./pages/User/Orders.jsx";
+import Address from "./pages/User/Address.jsx";
 
 // admin
 import AdminRoute from "./pages/Admin/AdminRoute.jsx";
@@ -46,6 +47,7 @@ const router = createBrowserRouter(
         <Route path="/account" element={<Account />}>
           <Route path="/account/profile" element={<Profile />} />
           <Route path="/account/orders" element={<Orders />} />
+          <Route path="/account/addresses" element={<Address />} />
         </Route>
         {/* Admin routes */}
         <Route path="/admin" element={<AdminRoute />}>

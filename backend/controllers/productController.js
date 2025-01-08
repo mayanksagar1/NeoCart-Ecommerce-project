@@ -202,11 +202,12 @@ const fetchNewProducts = asyncHandler(async (req, res) => {
 
 const fetchProductsByCategory = asyncHandler(async (req, res) => {
   try {
-    const categoryId = req.query.categoryId;
-    const page = req.query.page || 1;
+    const { category } = req.query;
+    console.log(category);
+    const page = Number(req.query.page) || 1;
     const limit = 8;
-    const filter = categoryId ? {
-      category: categoryId,
+    const filter = category ? {
+      category: category,
     } : {};
 
     const skip = (page - 1) * limit;

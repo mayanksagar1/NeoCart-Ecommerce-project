@@ -1,7 +1,5 @@
-import {useState, useEffect, useRef} from "react";
-import {Link, useNavigate} from "react-router-dom";
-import {useSelector, useDispatch} from "react-redux";
-import {toast} from "react-toastify";
+import {useState, useRef} from "react";
+import {Link} from "react-router-dom";
 import {CiSearch} from "react-icons/ci";
 import {AiOutlineShoppingCart} from "react-icons/ai";
 
@@ -14,25 +12,28 @@ const Header = () => {
       inputRef.current.focus();
     }
   };
+
   return (
-    <header className="p-2 m-auto flex items-center justify-evenly md:pl-2  pl-[4rem] bg-white z-40 sticky top-0 h-[8%]">
-      <div className="flex items-center rounded-lg shadow-sm p-2 gap-2 border bg-slate-200">
-        <CiSearch size={22} className="text-slate-700" onClick={handleSearchIconClick} />
+    <header className="p-4 bg-white shadow-md sticky top-0 z-40 flex items-center justify-between">
+      {/* Search Bar */}
+      <div className="flex items-center w-full max-w-[40rem] ml-[10vw] md:ml-[5vw]  bg-gray-100 rounded-full shadow-sm border transition-transform transform focus-within:shadow-lg focus-within:scale-105">
+        <CiSearch size={24} className="text-gray-500 ml-4 cursor-pointer hover:text-violet-600 transition-colors" onClick={handleSearchIconClick} />
         <input
           ref={inputRef}
           type="search"
           id="search"
           placeholder="Search for products"
-          className="bg-inherit border-none outline-none lg:w-[30vw] md:w-[35vw]  w-[50vw] "
+          className="bg-transparent border-none outline-none w-full py-2 px-4 text-gray-700 text-sm"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
       </div>
-      <div></div>
-      <div className="">
-        <Link to="/cart" className="flex items-center gap-2 rounded  transition-transform transform hover:font-bold hover:translate-x-2 ">
-          <AiOutlineShoppingCart size={26} className="" />
-          <span className="font-medium hidden md:block text-lg">Cart</span>
+
+      {/* Cart */}
+      <div className="ml-4 lg:mr-4">
+        <Link to="/cart" className="flex items-center gap-2 p-2 bg-violet-100 rounded-full hover:bg-violet-200 transition-all">
+          <AiOutlineShoppingCart size={24} className="text-violet-600" />
+          <span className="hidden md:block text-sm font-medium text-violet-700">Cart</span>
         </Link>
       </div>
     </header>

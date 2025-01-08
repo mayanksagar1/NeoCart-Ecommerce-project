@@ -2,10 +2,11 @@ import {useState, useEffect} from "react";
 import SmallProduct from "./SmallProduct";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
-import {useGetProductsByCategoryQuery} from "../../redux/api/productsApiSlice";
+import {useGetProductsByCategoryQuery} from "../../redux/api/productsApiSlice.js";
 
 const SimilarProducts = ({category, page = 1, productId}) => {
-  const {data, isLoading, error} = useGetProductsByCategoryQuery(category, page);
+  console.log(category);
+  const {data, isLoading, error} = useGetProductsByCategoryQuery({category, page});
 
   const [products, setProducts] = useState([]);
 

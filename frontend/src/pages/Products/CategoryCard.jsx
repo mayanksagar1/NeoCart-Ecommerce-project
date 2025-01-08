@@ -27,12 +27,13 @@ const CategoryCard = () => {
   ];
 
   return (
-    <div className="mt-8 p-3  ">
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:flex gap-3">
+    <div className="mt-8">
+      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Popular Categories</h2>
+      <div className="grid  p-6  grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 lg:gap-6">
         {categoryList.map((category, index) => (
-          <div key={index} className="w-full flex bg-white  gap-2  flex-col justify-between items-center text-black p-6 rounded-lg shadow-md">
-            <img className="lg:w-[60%] w-full" src={category.img} alt={category.name} />
-            <p className="md:text-lg text-sm text-center font-medium">{category.name}</p>
+          <div key={index} className="bg-white flex flex-col items-center justify-center text-center p-4 rounded-lg shadow-sm transition-transform transform hover:scale-105 hover:shadow-lg">
+            <img className="w-20 h-20 lg:w-24 lg:h-24  object-contain mb-3" src={category.img} alt={category.name} />
+            <p className="text-gray-700 text-sm md:text-base font-medium">{category.name}</p>
           </div>
         ))}
       </div>

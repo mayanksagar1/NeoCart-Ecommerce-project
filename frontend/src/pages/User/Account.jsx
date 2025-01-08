@@ -1,57 +1,43 @@
-import {Link, NavLink, Outlet} from "react-router";
+import {NavLink, Outlet} from "react-router-dom";
 import {ImProfile} from "react-icons/im";
 import {BsCartCheckFill} from "react-icons/bs";
 import {FaAddressBook} from "react-icons/fa";
 
 const Account = () => {
   return (
-    <section className="  p-4">
-      <div className="md:flex-row flex-col flex gap-6 md:mt-[2rem] justify-center align-center">
-        <ul className="p-4 h-fit bg-white rounded-lg lg:ml-[10rem] w-[100%] md:w-[25%] border-2 shadow-lg">
-          <li className="rounded hover:font-bold m-1 hover:text-[#7c3aed] hover:bg-black">
+    <section className="p-4 lg:w-[85vw] m-auto">
+      <div className="flex flex-col md:flex-row gap-6 max-w-6xl mx-auto mt-2">
+        {/* Sidebar */}
+        <ul className="bg-white rounded-lg shadow-lg p-6 md:w-1/4 w-full border">
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Your Account</h2>
+          <li className="mb-2">
             <NavLink
-              to={"/account/profile"}
-              style={({isActive}) => ({
-                backgroundColor: isActive ? "black" : "",
-                color: isActive ? "#7c3aed" : "",
-                borderRadius: isActive ? "4px" : "",
-                fontWeight: isActive ? "bold" : "",
-              })}
-              className="p-2 flex items-center gap-2">
-              <ImProfile size={26} />
+              to="/account/profile"
+              className={({isActive}) => `flex items-center gap-3 p-3 rounded-lg ${isActive ? "bg-indigo-600 text-white font-semibold" : "text-gray-700 hover:bg-gray-100"}`}>
+              <ImProfile size={24} />
               Profile
             </NavLink>
           </li>
-          <li className="rounded hover:font-bold m-1 hover:text-[#7c3aed] hover:bg-black">
+          <li className="mb-2">
             <NavLink
-              to={"/account/orders"}
-              style={({isActive}) => ({
-                backgroundColor: isActive ? "black" : "",
-                color: isActive ? "#7c3aed" : "",
-                borderRadius: isActive ? "4px" : "",
-                fontWeight: isActive ? "bold" : "",
-              })}
-              className="p-2 flex items-center gap-2">
-              <BsCartCheckFill size={26} />
+              to="/account/orders"
+              className={({isActive}) => `flex items-center gap-3 p-3 rounded-lg ${isActive ? "bg-indigo-600 text-white font-semibold" : "text-gray-700 hover:bg-gray-100"}`}>
+              <BsCartCheckFill size={24} />
               Your Orders
             </NavLink>
           </li>
-          <li className="rounded hover:font-bold m-1  hover:text-[#7c3aed] hover:bg-black">
+          <li className="mb-2">
             <NavLink
-              to={"/account/addresses"}
-              style={({isActive}) => ({
-                backgroundColor: isActive ? "black" : "",
-                color: isActive ? "#7c3aed" : "",
-                borderRadius: isActive ? "4px" : "",
-                fontWeight: isActive ? "bold" : "",
-              })}
-              className="p-2 flex items-center gap-2">
-              <FaAddressBook size={26} />
+              to="/account/addresses"
+              className={({isActive}) => `flex items-center gap-3 p-3 rounded-lg ${isActive ? "bg-indigo-600 text-white font-semibold" : "text-gray-700 hover:bg-gray-100"}`}>
+              <FaAddressBook size={24} />
               Manage Addresses
             </NavLink>
           </li>
         </ul>
-        <div className="md:w-[75%] w-[100%] ">
+
+        {/* Main Content */}
+        <div className="bg-white rounded-lg shadow-lg p-6 md:w-3/4 w-full">
           <Outlet />
         </div>
       </div>

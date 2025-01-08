@@ -14,7 +14,6 @@ const Profile = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
-
   const {userInfo} = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -36,42 +35,60 @@ const Profile = () => {
           email,
           password,
         }).unwrap();
-        console.log(res);
         dispatch(setCredentials({...res}));
         toast.success("Profile updated successfully");
         setEdit(true);
       } catch (err) {
-        console.log(err);
         toast.error(err?.data?.message || err.message);
       }
     }
   };
+
   return (
-    <div className="p-4 bg-white mb-5 rounded-lg md:w-[90%] w-[100%] border-2 shadow-md">
-      <h2 className="flex items-center p-3 justify-between font-semibold gap-3">
-        Profile
-        <button className="border-black border-2 flex items-center gap-2 rounded bg-violet-500 hover:bg-violet-500 p-2 text-white" onClick={() => setEdit(false)}>
+    <div className="">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">Profile</h2>
+        <button className="flex items-center gap-2 text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg shadow-md" onClick={() => setEdit(!edit)}>
           <MdEditSquare size={22} />
-          Edit
+          <span>Edit</span>
         </button>
-      </h2>
-      <form onSubmit={submitHandler}>
-        <div className="mb-4">
-          <label htmlFor="username" className="block mb-2">
+      </div>
+      <form onSubmit={submitHandler} className="space-y-6">
+        {/* Name Field */}
+        <div>
+          <label htmlFor="username" className="block text-gray-600 mb-2">
             Name
           </label>
-          <input disabled={edit} id="username" type="text" placeholder="Enter name" className="form-input p-4 rounded-lg w-full" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input
+            disabled={edit}
+            id="username"
+            type="text"
+            placeholder="Enter name"
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 ${edit ? "bg-gray-100 cursor-not-allowed" : "focus:ring-indigo-500"}`}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="email" className="block mb-2">
+        {/* Email Field */}
+        <div>
+          <label htmlFor="email" className="block text-gray-600 mb-2">
             Email Address
           </label>
-          <input disabled={edit} id="email" type="email" placeholder="Enter email" className="form-input p-4 rounded-lg w-full" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input
+            disabled={edit}
+            id="email"
+            type="email"
+            placeholder="Enter email"
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 ${edit ? "bg-gray-100 cursor-not-allowed" : "focus:ring-indigo-500"}`}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="password" className="block  mb-2">
+        {/* Password Field */}
+        <div>
+          <label htmlFor="password" className="block text-gray-600 mb-2">
             Password
           </label>
           <input
@@ -79,14 +96,15 @@ const Profile = () => {
             id="password"
             type="password"
             placeholder="Enter password"
-            className="form-input p-4 rounded-lg w-full"
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 ${edit ? "bg-gray-100 cursor-not-allowed" : "focus:ring-indigo-500"}`}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="confirmPassword" className="block mb-2">
+        {/* Confirm Password Field */}
+        <div>
+          <label htmlFor="confirmPassword" className="block text-gray-600 mb-2">
             Confirm Password
           </label>
           <input
@@ -94,14 +112,15 @@ const Profile = () => {
             id="confirmPassword"
             type="password"
             placeholder="Confirm password"
-            className="form-input p-4 rounded-lg w-full"
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 ${edit ? "bg-gray-100 cursor-not-allowed" : "focus:ring-indigo-500"}`}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
 
-        <div className="flex justify-between">
-          <button disabled={edit} type="submit" className="flex items-center gap-1 border-black border-2 bg-violet-500 text-white py-2 px-4 rounded hover:bg-violet-600">
+        {/* Submit Button */}
+        <div className="flex justify-end">
+          <button disabled={loadingUpdateProfile || edit} type="submit" className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg shadow-lg">
             <MdUpload size={20} />
             <span>Update</span>
           </button>
