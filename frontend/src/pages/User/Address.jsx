@@ -44,7 +44,7 @@ const Address = () => {
   const handleSubmit = () => {
     if (formValues.isDefault === true) {
       const haveDefault = addresses.filter((address) => address.isDefault === true);
-      if (haveDefault.length > 0) {
+      if (haveDefault.length > 0 && haveDefault[0]._id !== formValues._id) {
         return toast.error("There is already a default address!");
       }
     }

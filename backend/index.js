@@ -12,6 +12,7 @@ import categoryRouter from "./routes/categoryRoutes.js";
 import productRouter from "./routes/productRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import addressRoutes from "./routes/addressRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
 
 dotenv.config();
 
@@ -31,5 +32,6 @@ app.use("/api/categories", categoryRouter);
 app.use("/api/products", productRouter);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/user/address", addressRoutes);
+app.use("/api/cart", cartRoutes);
 
 app.listen(port, () => console.log("Server running on the Port : " + port));
