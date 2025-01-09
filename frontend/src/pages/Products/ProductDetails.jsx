@@ -15,6 +15,8 @@ import "slick-carousel/slick/slick-theme.css";
 import Ratings from "./Ratings";
 import ProductTabs from "./ProductTabs";
 import SimilarProducts from "./SimilarProducts.jsx";
+import {addToCart} from "../../redux/features/cart/cartSlice.js";
+import {useAddToCartMutation} from "../../redux/api/cartApiSlice.js";
 
 const ProductDetails = () => {
   const {id: productId} = useParams();
@@ -26,6 +28,7 @@ const ProductDetails = () => {
   const [comment, setComment] = useState("");
 
   const {data: product, isLoading, error, refetch} = useGetProductByIdQuery(productId);
+  const [useAddToCart, {isSuccess}] = useAddToCartMutation();
 
   const {userInfo} = useSelector((state) => state.auth);
 
@@ -72,6 +75,16 @@ const ProductDetails = () => {
     console.log("submitHandler triggered");
   };
 
+  const handleAddToCart = async () => {
+    try {
+      const res = await useAddToCart({productId, quantity: qty, price: product.price}).unwrap();
+      dispatch(addToCart({product, quantity: qty, price: product.price}));
+      toast.success("Product added to cart");
+    } catch (error) {
+      console.log("error adding to cart", error);
+    }
+  };
+
   if (isLoading) {
     return <Loader />;
   }
@@ -102,7 +115,10 @@ const ProductDetails = () => {
           {/* Add to cart button */}
           <div className="mt-20 hidden lg:flex items-center justify-around ">
             <div className="btn-container flex justify-center lg:justify-start">
-              <button disabled={product.countInStock === 0} className="flex items-center  gap-2 bg-pink-500 hover:bg-pink-600 hover:font-medium text-white py-2 px-4 rounded-lg  ">
+              <button
+                disabled={product.countInStock === 0}
+                onClick={handleAddToCart}
+                className="flex items-center  gap-2 bg-pink-500 hover:bg-pink-600 hover:font-medium text-white py-2 px-4 rounded-lg  ">
                 <FaCartPlus size={20} />
                 Add To Cart
               </button>
@@ -167,7 +183,10 @@ const ProductDetails = () => {
           <div className={`flex items-center justify-around my-4 lg:hidden ${window.innerWidth < 350 && "flex-col-reverse gap-3"} `}>
             {/* Add to cart button */}
             <div className={`btn-container flex justify-center lg:justify-start`}>
-              <button disabled={product.countInStock === 0} className="flex items-center  gap-2 bg-pink-500 hover:bg-pink-600 hover:font-medium text-white py-2 px-4 rounded-lg  ">
+              <button
+                disabled={product.countInStock === 0}
+                onClick={handleAddToCart}
+                className="flex items-center  gap-2 bg-pink-500 hover:bg-pink-600 hover:font-medium text-white py-2 px-4 rounded-lg  ">
                 <FaCartPlus size={20} />
                 Add To Cart
               </button>

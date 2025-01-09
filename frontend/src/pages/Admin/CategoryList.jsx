@@ -73,7 +73,7 @@ const CategoryList = () => {
     e.preventDefault();
     try {
       const res = await deleteCategory(editableCategory._id).unwrap();
-      console.log(res);
+
       if (res.error) {
         toast.error(res.error);
       }

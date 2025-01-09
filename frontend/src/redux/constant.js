@@ -4,3 +4,4 @@ export const CATEGORY_URL = "/api/categories";
 export const PRODUCTS_URL = "/api/products";
 export const UPLOADS_URL = "/api/uploads";
 export const ADDRESS_URL = "/api/user/address";
+export const CART_URL = "/api/cart";

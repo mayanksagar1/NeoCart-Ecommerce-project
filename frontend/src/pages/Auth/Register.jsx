@@ -41,7 +41,6 @@ const Register = () => {
     if (confirmPassword === formData.password) {
       try {
         const res = await register(formData).unwrap();
-        console.log(res);
         dispatch(setCredentials({...res}));
         toast.success("User successfully registered");
       } catch (error) {

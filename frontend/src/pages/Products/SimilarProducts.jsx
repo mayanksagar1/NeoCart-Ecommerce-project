@@ -5,7 +5,6 @@ import Message from "../../components/Message";
 import {useGetProductsByCategoryQuery} from "../../redux/api/productsApiSlice.js";
 
 const SimilarProducts = ({category, page = 1, productId}) => {
-  console.log(category);
   const {data, isLoading, error} = useGetProductsByCategoryQuery({category, page});
 
   const [products, setProducts] = useState([]);

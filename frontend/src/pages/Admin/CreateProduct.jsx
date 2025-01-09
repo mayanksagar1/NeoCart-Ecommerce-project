@@ -57,7 +57,6 @@ const CreateProduct = () => {
 
       const {data} = await createProduct(productData);
 
-      console.log(data);
       if (data?.error) {
         toast.error("Product creation failed. Try Again!");
       }

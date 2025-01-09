@@ -203,7 +203,6 @@ const fetchNewProducts = asyncHandler(async (req, res) => {
 const fetchProductsByCategory = asyncHandler(async (req, res) => {
   try {
     const { category } = req.query;
-    console.log(category);
     const page = Number(req.query.page) || 1;
     const limit = 8;
     const filter = category ? {

@@ -82,9 +82,7 @@ const ProductUpdate = () => {
 
     try {
       const newUrls = await handleImageUpload();
-      console.log(newUrls);
       const images = [...existingImages, ...newUrls];
-      console.log(images);
       const productData = {
         name,
         brand,
@@ -99,10 +97,8 @@ const ProductUpdate = () => {
       const {data} = await updateProduct({productId: params._id, data: productData});
 
       if (data?.error) {
-        console.log(data);
         toast.error("Failed to update product. Try Again!");
       } else {
-        console.log(data);
         navigate("/admin/products/list");
         toast.success("Product updates successfully!!");
       }
@@ -118,10 +114,8 @@ const ProductUpdate = () => {
       const {data} = await deleteProduct(params._id);
 
       if (data?.error) {
-        console.log(data);
         toast.error("Failed to delete the product. Try Again!!");
       } else {
-        console.log(data);
         navigate("/admin/products/list");
         toast.success("Product deleted successfully!!");
       }
