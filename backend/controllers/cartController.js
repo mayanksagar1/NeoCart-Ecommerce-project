@@ -30,7 +30,7 @@ const addToCart = asyncHandler(async (req, res) => {
     } else {
       const itemIndex = cart.cartItems.findIndex((item) => item.product.toString() === productId);
       if (itemIndex > -1) {
-        cart.cartItems[itemIndex].quantity += quantity; // Increment quantity
+        cart.cartItems[itemIndex].quantity += Number(quantity); // Increment quantity
       } else {
         cart.cartItems.push({ product: productId, quantity, price });
       }
@@ -59,7 +59,7 @@ const updateCartItem = asyncHandler(async (req, res) => {
       return res.status(404).json({ error: "Cart item not found!" });
     }
 
-    item.quantity = quantity;
+    item.quantity = Number(quantity);
     await cart.save();
     res.json(cart);
   } catch (error) {

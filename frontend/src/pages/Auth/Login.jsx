@@ -5,6 +5,8 @@ import {useLoginMutation} from "../../redux/api/usersApiSlice.js";
 import {setCredentials} from "../../redux/features/auth/authSlice.js";
 import {toast} from "react-toastify";
 import Loader from "../../components/Loader.jsx";
+import {useGetCartQuery, useAddToCartMutation, useUpdateCartItemMutation} from "../../redux/api/cartApiSlice.js";
+import {setCart} from "../../redux/features/cart/cartSlice.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,12 +16,75 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [login, {isLoading}] = useLoginMutation();
+  const {data: backendCart} = useGetCartQuery();
+  const [addToCartApi] = useAddToCartMutation();
+  const [updateCartApi] = useUpdateCartItemMutation();
 
   const {userInfo} = useSelector((state) => state.auth);
+  const localCart = useSelector((state) => state.cart);
 
   const {search} = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get("redirect") || "/";
+
+  const syncCart = async () => {
+    if (!localCart || localCart.cartItems.length === 0) {
+      // No local cart exists, just set the backend cart to Redux and return
+      dispatch(setCart(backendCart));
+      return;
+    }
+
+    const mergedCartItems = [...backendCart.cartItems];
+    const itemsToAddToBackend = [];
+    const itemsToUpdateInBackend = [];
+
+    localCart.cartItems.forEach((localItem) => {
+      const existingItem = mergedCartItems.find((backendItem) => backendItem.product === localItem.product);
+
+      if (existingItem) {
+        // Update quantity if the product already exists in the backend cart
+        existingItem.quantity += localItem.quantity;
+
+        // Add to update list if quantity is changed
+        itemsToUpdateInBackend.push({
+          product: existingItem.product,
+          quantity: existingItem.quantity,
+        });
+      } else {
+        // Add new items to backend cart
+        mergedCartItems.push(localItem);
+
+        // Add to the backend's "add to cart" API
+        itemsToAddToBackend.push(localItem);
+      }
+    });
+
+    // Calculate total price of merged cart
+    const totalPrice = mergedCartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+    // Dispatch merged cart to Redux store
+    dispatch(
+      setCart({
+        cartItems: mergedCartItems,
+        totalPrice,
+      }),
+    );
+
+    // Call the APIs to synchronize with the backend
+    try {
+      // Add new items to the backend
+      if (itemsToAddToBackend.length > 0) {
+        await Promise.all(itemsToAddToBackend.map((item) => addToCartApi({productId: item.product._id, quantity: item.quantity, price: item.price})));
+      }
+
+      // Update existing items in the backend
+      if (itemsToUpdateInBackend.length > 0) {
+        await Promise.all(itemsToUpdateInBackend.map((item) => updateCartApi({itemId: item._id, quantity: item.quantity})));
+      }
+    } catch (error) {
+      console.error("Failed to synchronize cart with backend:", error);
+    }
+  };
 
   useEffect(() => {
     if (userInfo) {
@@ -33,6 +98,7 @@ const Login = () => {
     try {
       const res = await login({email, password}).unwrap();
       dispatch(setCredentials({...res}));
+      await syncCart();
       toast.success("User successfully logged in");
     } catch (error) {
       toast.error(error?.data?.message || error.message);

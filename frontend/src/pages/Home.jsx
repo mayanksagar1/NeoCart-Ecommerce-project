@@ -29,7 +29,7 @@ const Home = () => {
           </div>
 
           <div>
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-3 mt-[2rem] p-3">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-3 mt-4 p-3">
               {data.products.map((product) => (
                 <div key={product._id}>
                   <SmallProduct product={product} />

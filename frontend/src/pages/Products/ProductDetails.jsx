@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Link, useParams, useNavigate} from "react-router-dom";
 import {useGetProductByIdQuery, useAddProductReviewMutation} from "../../redux/api/productsApiSlice.js";
 import {useSelector, useDispatch} from "react-redux";
@@ -26,13 +26,22 @@ const ProductDetails = () => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [alreadyInCart, setAlreadyInCart] = useState(false);
 
   const {data: product, isLoading, error, refetch} = useGetProductByIdQuery(productId);
   const [useAddToCart, {isSuccess}] = useAddToCartMutation();
 
   const {userInfo} = useSelector((state) => state.auth);
+  const cart = useSelector((state) => state.cart);
 
   const [createReview, {isLoading: loadingProductReview}] = useAddProductReviewMutation();
+
+  useEffect(() => {
+    const exists = cart.cartItems.find((item) => item.product._id.toString() === productId);
+    if (exists) {
+      setAlreadyInCart(true);
+    }
+  }, [product]);
 
   // Custom Previous Arrow Component
   const PrevArrow = ({className, onClick}) => {
@@ -77,7 +86,9 @@ const ProductDetails = () => {
 
   const handleAddToCart = async () => {
     try {
-      const res = await useAddToCart({productId, quantity: qty, price: product.price}).unwrap();
+      if (userInfo) {
+        const res = await useAddToCart({productId, quantity: qty, price: product.price}).unwrap();
+      }
       dispatch(addToCart({product, quantity: qty, price: product.price}));
       toast.success("Product added to cart");
     } catch (error) {
@@ -114,26 +125,35 @@ const ProductDetails = () => {
 
           {/* Add to cart button */}
           <div className="mt-20 hidden lg:flex items-center justify-around ">
-            <div className="btn-container flex justify-center lg:justify-start">
-              <button
-                disabled={product.countInStock === 0}
-                onClick={handleAddToCart}
-                className="flex items-center  gap-2 bg-pink-500 hover:bg-pink-600 hover:font-medium text-white py-2 px-4 rounded-lg  ">
-                <FaCartPlus size={20} />
-                Add To Cart
+            {alreadyInCart ? (
+              <button onClick={() => navigate("/cart")} className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 rounded-lg">
+                <FaShoppingCart size={20} />
+                Go to Cart
               </button>
-            </div>
-            {product.countInStock > 0 && (
-              <div className="flex items-center justify-center gap-2">
-                <label className="w-fit">Select quantity:</label>
-                <select value={qty} onChange={(e) => setQty(e.target.value)} className="p-2 bg-slate-200 w-[4rem] rounded-lg text-black">
-                  {[...Array(product.countInStock).keys()].map((x) => (
-                    <option key={x + 1} value={x + 1}>
-                      {x + 1}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            ) : (
+              <>
+                <div className="btn-container flex justify-center lg:justify-start">
+                  <button
+                    disabled={product.countInStock === 0}
+                    onClick={handleAddToCart}
+                    className="flex items-center  gap-2 bg-pink-500 hover:bg-pink-600 hover:font-medium text-white py-2 px-4 rounded-lg  ">
+                    <FaCartPlus size={20} />
+                    Add To Cart
+                  </button>
+                </div>
+                {product.countInStock > 0 && (
+                  <div className="flex items-center justify-center gap-2">
+                    <label className="w-fit">Select quantity:</label>
+                    <select value={qty} onChange={(e) => setQty(e.target.value)} className="p-2 bg-slate-200 w-[4rem] rounded-lg text-black">
+                      {[...Array(product.countInStock).keys()].map((x) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -181,27 +201,35 @@ const ProductDetails = () => {
           <Ratings value={product.ratings} text={`${product.numReviews} reviews`} />
 
           <div className={`flex items-center justify-around my-4 lg:hidden ${window.innerWidth < 350 && "flex-col-reverse gap-3"} `}>
-            {/* Add to cart button */}
-            <div className={`btn-container flex justify-center lg:justify-start`}>
-              <button
-                disabled={product.countInStock === 0}
-                onClick={handleAddToCart}
-                className="flex items-center  gap-2 bg-pink-500 hover:bg-pink-600 hover:font-medium text-white py-2 px-4 rounded-lg  ">
-                <FaCartPlus size={20} />
-                Add To Cart
+            {alreadyInCart ? (
+              <button onClick={() => navigate("/cart")} className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 rounded-lg">
+                <FaShoppingCart size={20} />
+                Go to Cart
               </button>
-            </div>
-            {product.countInStock > 0 && (
-              <div className={`flex items-center justify-center  gap-2`}>
-                <label className="w-fit">Select quantity:</label>
-                <select value={qty} onChange={(e) => setQty(e.target.value)} className="p-2 bg-slate-200 w-[4rem] rounded-lg text-black">
-                  {[...Array(product.countInStock).keys()].map((x) => (
-                    <option key={x + 1} value={x + 1}>
-                      {x + 1}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            ) : (
+              <>
+                <div className="btn-container flex justify-center lg:justify-start">
+                  <button
+                    disabled={product.countInStock === 0}
+                    onClick={handleAddToCart}
+                    className="flex items-center  gap-2 bg-pink-500 hover:bg-pink-600 hover:font-medium text-white py-2 px-4 rounded-lg  ">
+                    <FaCartPlus size={20} />
+                    Add To Cart
+                  </button>
+                </div>
+                {product.countInStock > 0 && (
+                  <div className="flex items-center justify-center gap-2">
+                    <label className="w-fit">Select quantity:</label>
+                    <select value={qty} onChange={(e) => setQty(e.target.value)} className="p-2 bg-slate-200 w-[4rem] rounded-lg text-black">
+                      {[...Array(product.countInStock).keys()].map((x) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </>
             )}
           </div>
 

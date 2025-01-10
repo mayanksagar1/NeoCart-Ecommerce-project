@@ -2,6 +2,7 @@ import {useState, useRef} from "react";
 import {Link} from "react-router-dom";
 import {CiSearch} from "react-icons/ci";
 import {AiOutlineShoppingCart} from "react-icons/ai";
+import CartCount from "./CartCount";
 
 const Header = () => {
   const inputRef = useRef(null);
@@ -30,10 +31,11 @@ const Header = () => {
       </div>
 
       {/* Cart */}
-      <div className="ml-4 lg:mr-4">
+      <div className="ml-4 lg:mr-4 relative ">
         <Link to="/cart" className="flex items-center gap-2 p-2 bg-violet-100 rounded-full hover:bg-violet-200 transition-all">
-          <AiOutlineShoppingCart size={24} className="text-violet-600" />
+          <AiOutlineShoppingCart size={26} className="text-violet-600" />
           <span className="hidden md:block text-sm font-medium text-violet-700">Cart</span>
+          <CartCount className={"top-0 right-1 md:right-9"} />
         </Link>
       </div>
     </header>

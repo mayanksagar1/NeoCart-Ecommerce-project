@@ -12,6 +12,8 @@ import appLogo from "../../assets/logo.svg";
 import appLogoSmall from "../../assets/logoSmall.svg";
 import {toast} from "react-toastify";
 import FavoritesCount from "../Products/FavoritesCount..";
+import CartCount from "../../components/CartCount";
+import {clearCart} from "../../redux/features/cart/cartSlice.js";
 
 const Navigation = () => {
   const {userInfo} = useSelector((state) => state.auth);
@@ -41,6 +43,7 @@ const Navigation = () => {
     try {
       let res = await logOutApiCall().unwrap();
       dispatch(logOut());
+      dispatch(clearCart());
       toast.success(res.message);
       navigate("/login");
       closeSidebar();
@@ -90,6 +93,7 @@ const Navigation = () => {
           <Link to="/cart" onClick={closeSidebar} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
             <AiOutlineShoppingCart size={26} className=" mt-[2rem]" />
             <span className="hidden nav-item-name pl-[1rem] mt-[2rem]">Cart</span>
+            <CartCount className={"top-5 left-3"} />
           </Link>
           <Link to="/favorites" onClick={closeSidebar} className="flex items-center transition-transform transform hover:font-bold hover:translate-x-2 hover:text-[#7c3aed]">
             <FaHeart size={26} className=" mt-[2rem]" />
