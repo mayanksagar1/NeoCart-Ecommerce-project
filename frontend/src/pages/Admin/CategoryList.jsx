@@ -45,7 +45,7 @@ const CategoryList = () => {
       refetch();
       toast.success("Category updated successfully");
     } catch (error) {
-      toast.error(error?.data?.message || error.message);
+      toast.error(error?.data?.error || error.message);
     }
   };
 
@@ -86,60 +86,63 @@ const CategoryList = () => {
   };
 
   return (
-    <section className="p-4 relative">
-      <h1 className="text-2xl md:pl-[10rem] mt-4 mb-4 text-center md:text-left font-bold ">Manage Categories</h1>
-      <AdminMenu />
-      <div className="m-auto rounded-lg border-2 bg-white w-fit">
-        {isLoading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant="error">{error?.data?.message || error.message}</Message>
-        ) : (
-          <div className=" w-[85vw]">
-            <CategoryForm
-              name={newCategoryName}
-              setName={setNewCategoryName}
-              parentCategory={newParentCategory}
-              setParentCategory={setNewParentCategory}
-              isLoading={creatingCategory}
-              handleSubmit={handleCreateCategory}
-              categories={categories}
-            />
-            <hr />
-            <div className="flex p-3 gap-4 flex-wrap">
-              {categories?.map((category) => (
-                <button
-                  className="px-4 py-2 rounded-xl text-violet-500 bg-white border-violet-500 border-2 font-medium text-lg hover:bg-violet-500 hover:text-white hover:font-semibold hover:border-black"
-                  key={category._id}
-                  onClick={() => {
-                    setEditableCategory(category);
-                    setEditableCategoryName(category.name);
-                    setEditableParentCategory(category.parentCategory || "");
-                    setIsModalOpen(true);
-                  }}>
-                  {category.name}
-                </button>
-              ))}
+    <section className="p-6 relative ">
+      <div className="max-w-6xl mx-auto mt-10 bg-white rounded-lg shadow-lg p-3 md:p-6">
+        <h1 className="text-3xl font-bold text-center text-gray-700 mb-6 ">Manage Categories</h1>
+        <AdminMenu />
+        <div className="m-auto rounded-lg  bg-white w-fit">
+          {isLoading ? (
+            <Loader />
+          ) : error ? (
+            <Message variant="error">{error?.data?.message || error.message}</Message>
+          ) : (
+            <div className="">
+              <CategoryForm
+                name={newCategoryName}
+                setName={setNewCategoryName}
+                parentCategory={newParentCategory}
+                setParentCategory={setNewParentCategory}
+                isLoading={creatingCategory}
+                handleSubmit={handleCreateCategory}
+                categories={categories}
+              />
+              <hr />
+              <hr />
+              <div className="flex p-3 gap-4 flex-wrap">
+                {categories?.map((category) => (
+                  <button
+                    className="px-4 py-2 rounded-xl text-violet-500 bg-white border-violet-500 border-2 font-medium text-lg hover:bg-violet-500 hover:text-white hover:font-semibold "
+                    key={category._id}
+                    onClick={() => {
+                      setEditableCategory(category);
+                      setEditableCategoryName(category.name);
+                      setEditableParentCategory(category.parentCategory || "");
+                      setIsModalOpen(true);
+                    }}>
+                    {category.name}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
-
-      <Modal isOpen={isModalOpen} onClose={onModalClose}>
-        <div className="w-[60vw]">
-          <CategoryForm
-            setName={setEditableCategoryName}
-            name={editableCategoryName}
-            parentCategory={editableParentCategory}
-            setParentCategory={setEditableParentCategory}
-            categories={categories}
-            isLoading={updatingCategory}
-            buttonText="Update"
-            handleSubmit={handleUpdateCategory}
-            handleDelete={handleDeleteCategory}
-          />
+          )}
         </div>
-      </Modal>
+
+        <Modal isOpen={isModalOpen} onClose={onModalClose}>
+          <div className=" w-[80vw] md:w-[60vw]">
+            <CategoryForm
+              setName={setEditableCategoryName}
+              name={editableCategoryName}
+              parentCategory={editableParentCategory}
+              setParentCategory={setEditableParentCategory}
+              categories={categories}
+              isLoading={updatingCategory}
+              buttonText="Update"
+              handleSubmit={handleUpdateCategory}
+              handleDelete={handleDeleteCategory}
+            />
+          </div>
+        </Modal>
+      </div>
     </section>
   );
 };

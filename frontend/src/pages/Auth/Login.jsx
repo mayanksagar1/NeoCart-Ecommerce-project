@@ -101,6 +101,7 @@ const Login = () => {
       await syncCart();
       toast.success("User successfully logged in");
     } catch (error) {
+      console.log(error);
       toast.error(error?.data?.message || error.message);
     }
   };

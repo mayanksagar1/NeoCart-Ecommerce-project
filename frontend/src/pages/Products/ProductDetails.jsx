@@ -41,7 +41,7 @@ const ProductDetails = () => {
     if (exists) {
       setAlreadyInCart(true);
     }
-  }, [product]);
+  }, []);
 
   // Custom Previous Arrow Component
   const PrevArrow = ({className, onClick}) => {
@@ -90,6 +90,7 @@ const ProductDetails = () => {
         const res = await useAddToCart({productId, quantity: qty, price: product.price}).unwrap();
       }
       dispatch(addToCart({product, quantity: qty, price: product.price}));
+      setAlreadyInCart(true);
       toast.success("Product added to cart");
     } catch (error) {
       console.log("error adding to cart", error);

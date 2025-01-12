@@ -20,7 +20,7 @@ const cartSlice = createSlice({
 
     addToCart: (state, action) => {
       const existingItem = state.cartItems.find((item) => {
-        return item.product.toString() === action.payload.product.toString();
+        return item.product._id.toString() === action.payload.product._id.toString();
       });
       if (existingItem) {
         existingItem.quantity = Number(existingItem.quantity) + Number(action.payload.quantity);
@@ -32,7 +32,7 @@ const cartSlice = createSlice({
     },
     updateCartItem: (state, action) => {
       const { product, quantity } = action.payload;
-      const item = state.cartItems.find((item) => item.product.toString() === product.toString());
+      const item = state.cartItems.find((item) => item.product._id.toString() === product._id.toString());
       if (item) {
         item.quantity = quantity;
       }

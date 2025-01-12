@@ -53,8 +53,8 @@ const UserList = () => {
   };
 
   return (
-    <section className="p-4 relative">
-      <h1 className="text-2xl pl-[10rem] font-bold mb-4">Users</h1>
+    <section className="p-6 relative">
+      <h1 className="text-3xl font-bold text-center text-gray-700 mb-6">Manage Users</h1>
       <AdminMenu />
       <div className="">
         {isLoading ? (
@@ -66,16 +66,16 @@ const UserList = () => {
             <table className="w-full md:w-4/5 mx-auto border-collapse border border-gray-200">
               <thead>
                 <tr className="bg-[#642bd6] text-white">
-                  <th scope="col" className="px-4 py-2 text-left border-b border-gray-300">
-                    ID
+                  <th scope="col" className="px-4 py-2 text-center border-b border-gray-300">
+                    USER ID
                   </th>
-                  <th scope="col" className="px-4 py-2 text-left border-b border-gray-300">
+                  <th scope="col" className="px-4 py-2 text-center border-b border-gray-300">
                     NAME
                   </th>
-                  <th scope="col" className="px-4 py-2 text-left border-b border-gray-300">
+                  <th scope="col" className="px-4 py-2 text-center border-b border-gray-300">
                     EMAIL
                   </th>
-                  <th scope="col" className="px-4 py-2 text-left border-b border-gray-300">
+                  <th scope="col" className="px-4 py-2 text-center border-b border-gray-300">
                     ADMIN
                   </th>
                   <th scope="col" className="px-4 py-2 border-b border-gray-300"></th>
@@ -127,13 +127,15 @@ const UserList = () => {
                           <a href={`mailto:${user.email}`} className="text-blue-500 underline">
                             {user.email}
                           </a>
-                          <button onClick={() => toggleEdit(user._id, user.name, user.email)} aria-label="Edit user email" className="ml-2 text-blue-500">
+                          <button onClick={() => toggleEdit(user._id, user.username, user.email)} aria-label="Edit user email" className="ml-2 text-blue-500">
                             <FaEdit />
                           </button>
                         </div>
                       )}
                     </td>
-                    <td className="px-4 py-2 border-b border-gray-300">{user.role === "admin" ? <FaCheck className="text-green-500" /> : <FaTimes className="text-red-500" />}</td>
+                    <td className="px-4 py-2 border-b  border-gray-300">
+                      {user.role === "admin" ? <FaCheck className="text-green-500 w-fit m-auto" /> : <FaTimes className="text-red-500 w-fit m-auto" />}
+                    </td>
                     <td className="px-4 py-2 border-b border-gray-300">
                       {user.role !== "admin" && (
                         <button onClick={() => deleteHandler(user._id)} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" aria-label="Delete user">
