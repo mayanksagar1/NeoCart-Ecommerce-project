@@ -223,6 +223,29 @@ const updateDeliveryStatus = asyncHandler(async (req, res) => {
   }
 });
 
+const canReviewProductOrNot = asyncHandler(async (req, res) => {
+  try {
+    // Find a single order where the user purchased the product
+    const order = await Order.findOne({
+      user: req.user._id,
+      "orderItems.product": req.params.productId, // Match specific product in orderItems
+      isPaid: true
+    });
+
+    // If no such order exists, the user cannot review the product
+    if (!order) {
+      return res.json({ canReview: false });
+    }
+
+    // If a matching order is found, the user can review the product
+    res.json({ canReview: true });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 export {
   createOrder,
   getAllOrders,
@@ -232,5 +255,6 @@ export {
   calculateTotalSalesByDate,
   getOrderById,
   markOrderAsPaid,
-  updateDeliveryStatus
+  updateDeliveryStatus,
+  canReviewProductOrNot
 };

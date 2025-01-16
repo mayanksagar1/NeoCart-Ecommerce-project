@@ -5,6 +5,7 @@ import {useLoginMutation} from "../../redux/api/usersApiSlice.js";
 import {setCredentials} from "../../redux/features/auth/authSlice.js";
 import {toast} from "react-toastify";
 import Loader from "../../components/Loader.jsx";
+import BtnLoader from "../../components/BtnLoader.jsx";
 import {useGetCartQuery, useAddToCartMutation, useUpdateCartItemMutation} from "../../redux/api/cartApiSlice.js";
 import {setCart} from "../../redux/features/cart/cartSlice.js";
 
@@ -30,7 +31,9 @@ const Login = () => {
   const syncCart = async () => {
     if (!localCart || localCart.cartItems.length === 0) {
       // No local cart exists, just set the backend cart to Redux and return
-      dispatch(setCart(backendCart));
+      if (backendCart?.cartItems) {
+        dispatch(setCart(backendCart));
+      }
       return;
     }
 
@@ -107,44 +110,66 @@ const Login = () => {
   };
 
   return (
-    <div className="h-[100%]">
-      <section className="h-[100%] lg:pl-[10vw] p-4 flex gap-6 flex-wrap">
-        <div className="mt-[3rem]  lg:w-[40%] w-[100%] ">
-          <h1 className="text-3xl font-semibold ">Sign In</h1>
-          <form onSubmit={handleSubmit} className="container bg-white rounded-lg p-3 border-2 mt-4 w-[100%]">
-            <div className="my-[2rem]">
-              <label htmlFor="email" className="block text-xl font-medium">
-                Email
+    <>
+      <section className="h-full lg:ml-[8vw] p-4 flex justify-between items-center flex-wrap">
+        {/* Form Section */}
+        <div className="lg:w-[43%] w-full bg-white h-fit rounded-xl shadow-xl p-6">
+          <h1 className="text-4xl font-extrabold text-gray-800 mb-6">Welcome Back</h1>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="email" className="block text-lg font-medium text-gray-700 mb-2">
+                Email Address
               </label>
-              <input type="email" id="email" className="p-2 border rounded w-full" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input
+                type="email"
+                id="email"
+                className="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+              />
             </div>
-            <div className="my-[2rem]">
-              <label htmlFor="password" className="block text-xl font-medium">
+            <div>
+              <label htmlFor="password" className="block text-lg font-medium text-gray-700 mb-2">
                 Password
               </label>
-              <input type="password" id="password" className="p-2 border rounded w-full" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input
+                type="password"
+                id="password"
+                className="block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+              />
             </div>
-            <button disabled={isLoading} type="submit" className="bg-violet-600 text-md font-semibold text-white px-6 py-2 rounded cursor-pointer my-1 border-[2px] border-black ">
-              {isLoading ? "Singing In...." : "Sing In"}
+            <button
+              disabled={isLoading}
+              type="submit"
+              className={`w-full py-3 text-lg font-semibold text-white rounded-lg transition-colors ${isLoading ? "bg-gray-400" : "bg-violet-600 hover:bg-violet-700"} shadow-lg`}>
+              {isLoading ? <BtnLoader /> : "Sign In"}
             </button>
             {isLoading && <Loader />}
           </form>
-          <div className="mt-4">
-            <p className="text-black">
-              New Customer ? {""}
-              <Link to={redirect ? `/register?redirect=${redirect}` : "/register"} className="text-violet-500 hover:underline">
+          <div className="mt-6 text-center">
+            <p className="text-gray-700">
+              New Customer?{" "}
+              <Link to={redirect ? `/register?redirect=${redirect}` : "/register"} className="text-violet-600 font-semibold hover:underline">
                 Register
               </Link>
             </p>
           </div>
         </div>
-        <img
-          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80"
-          alt=""
-          className=" w-[55%] h-[84vh] lg:block hidden md:hidden sm:hidden rounded-lg"
-        />
+
+        {/* Image Section */}
+        <div className="hidden lg:block lg:w-[55%] h-[84vh] rounded-lg overflow-hidden shadow-lg">
+          <img
+            src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80"
+            alt="Sign In Background"
+            className="object-cover w-full h-full"
+          />
+        </div>
       </section>
-    </div>
+    </>
   );
 };
 

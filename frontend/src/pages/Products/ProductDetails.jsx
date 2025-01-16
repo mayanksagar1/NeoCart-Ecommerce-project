@@ -17,6 +17,7 @@ import ProductTabs from "./ProductTabs";
 import SimilarProducts from "./SimilarProducts.jsx";
 import {addToCart} from "../../redux/features/cart/cartSlice.js";
 import {useAddToCartMutation} from "../../redux/api/cartApiSlice.js";
+import {useCanReviewProductQuery} from "../../redux/api/orderApiSlice.js";
 
 const ProductDetails = () => {
   const {id: productId} = useParams();
@@ -26,6 +27,7 @@ const ProductDetails = () => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [canReview, setCanReview] = useState(false);
   const [alreadyInCart, setAlreadyInCart] = useState(false);
 
   const {data: product, isLoading, error, refetch} = useGetProductByIdQuery(productId);
@@ -33,6 +35,14 @@ const ProductDetails = () => {
 
   const {userInfo} = useSelector((state) => state.auth);
   const cart = useSelector((state) => state.cart);
+
+  const {data: canReviewApiData} = useCanReviewProductQuery({productId});
+
+  useEffect(() => {
+    if (canReviewApiData?.canReview) {
+      setCanReview(canReviewApiData.canReview);
+    }
+  }, [canReviewApiData]);
 
   const [createReview, {isLoading: loadingProductReview}] = useAddProductReviewMutation();
 
@@ -80,8 +90,21 @@ const ProductDetails = () => {
     ],
   };
 
-  const submitHandler = () => {
-    console.log("submitHandler triggered");
+  const handleCreateReview = async () => {
+    try {
+      const res = await createReview({productId, data: {rating, comment}});
+      console.log(res);
+      refetch();
+      toast.success("Review added successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("Error adding review!");
+    }
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    handleCreateReview();
   };
 
   const handleAddToCart = async () => {
@@ -248,6 +271,7 @@ const ProductDetails = () => {
           comment={comment}
           setComment={setComment}
           product={product}
+          canReview={canReview}
         />
       </div>
       <SimilarProducts category={product.category} productId={product._id} />

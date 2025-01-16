@@ -68,6 +68,13 @@ const orderApiSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body: { orderStatus },
       })
+    }),
+
+    canReviewProduct: builder.query({
+      query: ({ productId }) => ({
+        url: `${ORDER_URL}/${productId}/review`,
+        method: "GET"
+      })
     })
   })
 });
@@ -83,4 +90,5 @@ export const {
   useGetPaypalClientIDQuery,
   usePayOrderMutation,
   useUpdateDeliveryStatusMutation,
+  useCanReviewProductQuery,
 } = orderApiSlice;

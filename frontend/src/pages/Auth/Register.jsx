@@ -3,6 +3,7 @@ import {Link, useNavigate, useLocation} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 import {toast} from "react-toastify";
 import Loader from "../../components/Loader.jsx";
+import BtnLoader from "../../components/BtnLoader.jsx";
 import {useRegisterMutation} from "../../redux/api/usersApiSlice.js";
 import {setCredentials} from "../../redux/features/auth/authSlice.js";
 
@@ -50,53 +51,93 @@ const Register = () => {
   };
 
   return (
-    <section className="lg:pl-[10vw] h-[100%] p-4 flex gap-6 flex-wrap">
-      <div className="mt-[3rem] lg:w-[40%] w-[100%] ">
-        <h1 className="text-3xl font-semibold">Register</h1>
-        <form className="container rounded-lg bg-white border-2 p-3 mt-4 w-[100%]" onSubmit={handleSubmit}>
-          <div className="my-[1.5rem]">
-            <label htmlFor="username" className="block text-xl font-medium">
-              Name
+    <section className="lg:pl-[8vw] h-full p-4 flex justify-between flex-wrap items-center">
+      {/* Form Section */}
+      <div className="lg:w-[43%] w-full lg:mt-0 bg-white shadow-xl h-fit rounded-xl p-6">
+        <h1 className="text-4xl font-extrabold text-gray-800 mb-4">Create an Account</h1>
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="username" className="block text-lg font-medium text-gray-700 mb-2">
+              Full Name
             </label>
-            <input type="text" id="username" name="username" className="p-2 border rounded w-full" value={formData.username} onChange={handleFormChange} />
+            <input
+              type="text"
+              id="username"
+              name="username"
+              className="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+              value={formData.username}
+              onChange={handleFormChange}
+              placeholder="Enter your full name"
+            />
           </div>
-          <div className="my-[1.5rem]">
-            <label htmlFor="email" className="block text-xl font-medium">
-              Email
+          <div>
+            <label htmlFor="email" className="block text-lg font-medium text-gray-700 mb-2">
+              Email Address
             </label>
-            <input type="email" id="email" name="email" className="p-2 border rounded w-full" value={formData.email} onChange={handleFormChange} />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+              value={formData.email}
+              onChange={handleFormChange}
+              placeholder="Enter your email"
+            />
           </div>
-          <div className="my-[1.5rem]">
-            <label htmlFor="password" className="block text-xl font-medium">
-              Password{" "}
+          <div>
+            <label htmlFor="password" className="block text-lg font-medium text-gray-700 mb-2">
+              Password
             </label>
-            <input type="password" id="password" name="password" className="p-2 border rounded w-full" value={formData.password} onChange={handleFormChange} />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              className="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+              value={formData.password}
+              onChange={handleFormChange}
+              placeholder="Create a strong password"
+            />
           </div>
-          <div className="my-[1.5rem]">
-            <label htmlFor="confirm-password" className="block text-xl font-medium">
-              Confirm Password{" "}
+          <div>
+            <label htmlFor="confirm-password" className="block text-lg font-medium text-gray-700 mb-2">
+              Confirm Password
             </label>
-            <input type="password" id="confirm-password" name="confirm-password" className="p-2 border rounded w-full" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+            <input
+              type="password"
+              id="confirm-password"
+              name="confirm-password"
+              className="block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Re-enter your password"
+            />
           </div>
-          <button disabled={isLoading} type="submit" className="bg-violet-600 text-md font-semibold text-white px-6 py-2 rounded cursor-pointer my-1 border-[2px] border-black ">
-            {isLoading ? "Registering...." : "Register"}
+          <button
+            disabled={isLoading}
+            type="submit"
+            className={`block w-full py-3 text-lg font-semibold text-white rounded-lg transition-colors ${isLoading ? "bg-gray-400" : "bg-violet-600 hover:bg-violet-700"}`}>
+            {isLoading ? <BtnLoader /> : "Register"}
           </button>
           {isLoading && <Loader />}
         </form>
-        <div className="mt-4">
-          <p className="text-black">
-            Already have an account ? {""}
-            <Link to={redirect ? `/login?redirect=${redirect}` : "/login"} className="text-violet-500 hover:underline">
+        <div className="mt-6 text-center">
+          <p className="text-gray-700">
+            Already have an account?{" "}
+            <Link to={redirect ? `/login?redirect=${redirect}` : "/login"} className="text-violet-600 font-semibold hover:underline">
               Log In
             </Link>
           </p>
         </div>
       </div>
-      <img
-        src="https://images.unsplash.com/photo-1576502200916-3808e07386a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2065&q=80"
-        alt=""
-        className=" w-[55%] h-[84vh] lg:block hidden md:hidden sm:hidden rounded-lg"
-      />
+
+      {/* Image Section */}
+      <div className="hidden lg:block lg:w-[55%] h-[84vh] rounded-lg overflow-hidden shadow-lg">
+        <img
+          src="https://images.unsplash.com/photo-1576502200916-3808e07386a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2065&q=80"
+          alt="Registration Background"
+          className="object-cover w-full h-full"
+        />
+      </div>
     </section>
   );
 };

@@ -10,6 +10,7 @@ import {
   getOrderById,
   markOrderAsPaid,
   updateDeliveryStatus,
+  canReviewProductOrNot,
 } from "../controllers/orderController.js";
 
 const router = express.Router();
@@ -25,6 +26,7 @@ router.route("/total-sales-by-date").get(calculateTotalSalesByDate);
 router.route("/:id").get(authenticate, getOrderById);
 router.route("/:id/pay").put(authenticate, markOrderAsPaid);
 router.route("/:id/delivery-status").put(authenticate, authorizeAdmin, updateDeliveryStatus);
+router.route("/:productId/review").get(authenticate, canReviewProductOrNot);
 
 
 export default router;

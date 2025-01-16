@@ -112,13 +112,16 @@ const Navigation = () => {
           )}
 
           {dropDownOpen && userInfo && (
-            <ul className={`absolute transition-all bg-slate-950 rounded-lg hidden nav-item-name mt-2 p-2 space-y-2  ${userInfo.role !== "admin" ? "-top-20" : "-top-40"} `}>
+            <ul
+              className={`absolute transition-all duration-300 ease-in-out bg-slate-900   text-gray-200 hidden nav-item-name rounded-lg shadow-xl ${
+                userInfo.role !== "admin" ? "-top-20" : "-top-40"
+              }   mt-2 p-3 space-y-3`}>
               {userInfo.role === "admin" && (
                 <li>
                   <Link
                     onClick={closeSidebar}
                     to="/admin/dashboard"
-                    className="block px-2 mx-2 text-sm py-2 hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
+                    className="block text-sm px-3 py-2 font-semibold hover:bg-violet-600 hover:text-white rounded-lg transition-all duration-200 ease-in-out hover:translate-x-1">
                     Admin Dashboard
                   </Link>
                 </li>
@@ -127,14 +130,14 @@ const Navigation = () => {
                 <Link
                   onClick={closeSidebar}
                   to="/account/profile"
-                  className="block text-sm px-2 mx-2 py-2 hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-2">
+                  className="block text-sm px-3 py-2 font-semibold hover:bg-violet-600 hover:text-white rounded-lg transition-all duration-200 ease-in-out hover:translate-x-1">
                   Account
                 </Link>
               </li>
               <li>
                 <button
                   onClick={logOutHandler}
-                  className="block text-sm w-[90%] px-2 mx-2 py-2 text-left hover:bg-[#7c3aed] rounded hover:text-black hover:text-md hover:font-bold hover:translate-x-1">
+                  className="block w-full text-sm px-3 py-2 text-left font-semibold hover:bg-violet-600 hover:text-white rounded-lg transition-all duration-200 ease-in-out hover:translate-x-1">
                   Logout
                 </button>
               </li>
