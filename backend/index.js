@@ -13,6 +13,7 @@ import productRouter from "./routes/productRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import addressRoutes from "./routes/addressRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 
 dotenv.config();
 
@@ -33,5 +34,10 @@ app.use("/api/products", productRouter);
 app.use("/api/uploads", uploadRoutes);
 app.use("/api/user/address", addressRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/orders", orderRoutes);
+
+app.get("/api/config/paypal", (req, res) => {
+  res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
+});
 
 app.listen(port, () => console.log("Server running on the Port : " + port));

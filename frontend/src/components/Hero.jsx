@@ -39,7 +39,7 @@ const Hero = () => {
   return (
     <Slider {...settings} className="w-full lg:w-[90%] m-auto">
       {images.map((img, index) => (
-        <img key={index} src={img} className="w-full  h-[14rem] sm:h-[20rem] md:h-[22rem] lg:h-[25rem]  rounded-lg" alt="hero image" />
+        <img key={index} src={img} className="w-full  h-[12rem] sm:h-[17rem] md:h-[20rem] lg:h-[25rem]  rounded-lg" alt="hero image" />
       ))}
     </Slider>
   );

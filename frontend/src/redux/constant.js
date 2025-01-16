@@ -5,3 +5,5 @@ export const PRODUCTS_URL = "/api/products";
 export const UPLOADS_URL = "/api/uploads";
 export const ADDRESS_URL = "/api/user/address";
 export const CART_URL = "/api/cart";
+export const ORDER_URL = "/api/orders";
+export const PAYPAL_URL = "/api/config/paypal";

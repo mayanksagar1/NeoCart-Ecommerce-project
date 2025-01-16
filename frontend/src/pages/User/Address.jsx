@@ -11,9 +11,9 @@ import BtnLoader from "../../components/BtnLoader";
 const Address = () => {
   const {userInfo} = useSelector((state) => state.auth);
   const {data: addresses, refetch, isLoading, error} = useFetchAddressesQuery(userInfo._id);
-  const [createAddress, {isCreating}] = useCreateAddressMutation();
-  const [updateAddress, {isUpdating}] = useUpdateAddressMutation();
-  const [deleteAddress, {isDeleting}] = useDeleteAddressMutation();
+  const [createAddress, {isLoading: isCreating}] = useCreateAddressMutation();
+  const [updateAddress, {isLoading: isUpdating}] = useUpdateAddressMutation();
+  const [deleteAddress, {isLoading: isDeleting}] = useDeleteAddressMutation();
   const [isModalOpen, setModalOpen] = useState(false);
 
   const [formValues, setFormValues] = useState({
@@ -41,7 +41,7 @@ const Address = () => {
     setModalOpen(false);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (formValues.isDefault === true) {
       const haveDefault = addresses.filter((address) => address.isDefault === true);
       if (haveDefault.length > 0 && haveDefault[0]._id !== formValues._id) {
@@ -49,9 +49,9 @@ const Address = () => {
       }
     }
     if (formValues._id) {
-      handleUpdateAddress();
+      await handleUpdateAddress();
     } else {
-      handleAddAddress();
+      await handleAddAddress();
     }
   };
 

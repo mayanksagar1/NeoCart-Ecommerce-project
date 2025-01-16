@@ -24,7 +24,7 @@ const Header = () => {
           type="search"
           id="search"
           placeholder="Search for products"
-          className="bg-transparent border-none outline-none w-full py-2 px-4 text-gray-700 text-sm"
+          className="bg-transparent border-none rounded-lg outline-none w-full py-2 px-4 text-gray-700 text-sm"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />

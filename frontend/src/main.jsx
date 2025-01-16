@@ -5,6 +5,7 @@ import {createBrowserRouter, createRoutesFromElements, Route} from "react-router
 import {RouterProvider} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from "./redux/store.js";
+import {PayPalScriptProvider} from "@paypal/react-paypal-js";
 
 // imports for simple routes
 import Home from "./pages/Home.jsx";
@@ -18,6 +19,7 @@ import Register from "./pages/Auth/Register.jsx";
 
 // importing private routes.
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import MultiStepOrderPage from "./pages/Order/MultiStepOrderPage.jsx";
 
 // user pages
 import Account from "./pages/User/Account.jsx";
@@ -48,6 +50,7 @@ const router = createBrowserRouter(
 
       <Route path="" element={<PrivateRoute />}>
         {/* user routes */}
+        <Route path="/checkout" element={<MultiStepOrderPage />} />
         <Route path="/account" element={<Account />}>
           <Route path="/account/profile" element={<Profile />} />
           <Route path="/account/orders" element={<Orders />} />
@@ -69,6 +72,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <RouterProvider router={router} />
+    <PayPalScriptProvider>
+      <RouterProvider router={router} />
+    </PayPalScriptProvider>
   </Provider>,
 );

@@ -27,7 +27,7 @@ const Shop = () => {
     if (!checked.length || !radio.length) {
       if (!filteredProductsQuery.isLoading && filteredProductsQuery.isSuccess) {
         const filteredProducts = filteredProductsQuery.data.filter((product) => {
-          return product.price.toString().includes(priceFilter) || product.price === parseInt(priceFilter, 10);
+          return product.price.toString().includes(priceFilter) || product.price <= parseInt(priceFilter, 10);
         });
         dispatch(setProducts(filteredProducts));
       }
@@ -63,13 +63,13 @@ const Shop = () => {
 
   return (
     <div className=" lg:ml-[7vw] mx-auto px-4">
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col lg:flex-row">
         {/* Filter Section */}
         <div
-          className={`fixed bg-white z-30 rounded-lg w-64  h-[80vh] overflow-y-auto md:w-fit p-4 md:h-fit md:relative ${
-            showFilters ? "block shadow-[0_0_0_100vw_rgba(0,0,0,0.5)]" : "hidden md:block"
+          className={`fixed bg-white z-30 rounded-lg w-64  h-[85vh] overflow-y-auto lg:w-fit p-4 lg:h-fit  lg:relative ${
+            showFilters ? "block shadow-[0_0_0_100vw_rgba(0,0,0,0.5)]" : "hidden lg:block"
           }`}>
-          <button onClick={() => setShowFilters(false)} className="md:hidden bg-pink-500 text-white px-3 py-1 rounded-full mb-3">
+          <button onClick={() => setShowFilters(false)} className="lg:hidden bg-pink-500 text-white px-3 py-1 rounded-full mb-3">
             Close
           </button>
 
@@ -99,7 +99,7 @@ const Shop = () => {
 
             {/* Price */}
             <div>
-              <h3 className="font-medium text-gray-700 mb-2">Price</h3>
+              <h3 className="font-medium text-gray-700 mb-2">Max. Price</h3>
               <input
                 type="text"
                 placeholder="Enter Price"
@@ -118,13 +118,13 @@ const Shop = () => {
 
         {/* Floating Button for Filters */}
         {!showFilters && (
-          <button onClick={() => setShowFilters(true)} className="fixed bottom-4 right-4 md:hidden bg-pink-500 text-white rounded-full p-3 shadow-lg z-40">
+          <button onClick={() => setShowFilters(true)} className="fixed bottom-4 right-4 md:right-6 md:bottom-6 lg:hidden bg-pink-500 text-white rounded-full p-3 shadow-lg z-40">
             Filters
           </button>
         )}
         {/* Products Section */}
         <div className="flex-1 p-4">
-          <h2 className="text-xl font-semibold mb-4">{products?.length} Products</h2>
+          {/* <h2 className="text-xl font-semibold mb-4">{products?.length} Products</h2> */}
           {filteredProductsQuery.isLoading ? (
             <Loader />
           ) : products.length === 0 ? (
@@ -136,7 +136,7 @@ const Shop = () => {
               </button>
             </div>
           ) : (
-            <div className="flex flex-wrap gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {products.map((p) => (
                 <ProductCard key={p._id} p={p} />
               ))}

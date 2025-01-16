@@ -12,73 +12,38 @@ const AdminMenu = () => {
 
   return (
     <>
-      <button className={`${isMenuOpen ? "top-5 right-7" : "top-5 right-7"} z-10 bg-[#151515] p-2 absolute rounded-lg`} onClick={toggleMenu}>
-        {isMenuOpen ? <FaTimes color="white" /> : <CgMenuGridR size={20} color="white" />}
+      {/* Toggle Button */}
+      <button
+        className={`${isMenuOpen ? "top-5 right-7" : "top-5 right-7"} z-10 bg-[#1b1b1b] p-2 absolute rounded-full shadow-md hover:scale-110 transform transition-transform duration-300`}
+        onClick={toggleMenu}>
+        {isMenuOpen ? <FaTimes color="#32de84" size={22} /> : <CgMenuGridR size={24} color="#32de84" />}
       </button>
 
+      {/* Menu Section */}
       {isMenuOpen && (
-        <section className="bg-[#151515] rounded-md p-4 z-10 absolute right-10 top-10">
-          <ul className="list-none ">
-            <li>
-              <NavLink
-                className=" py-2 px-3 block  hover:translate-x-2 hover:bg-[#2E2D2D] rounded-sm"
-                to="/admin/dashboard"
-                style={({isActive}) => ({
-                  color: isActive ? "greenyellow" : "white",
-                })}>
-                Admin Dashboard
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className=" py-2 px-3  block hover:translate-x-2 hover:bg-[#2E2D2D] rounded-sm"
-                to="/admin/categories"
-                style={({isActive}) => ({
-                  color: isActive ? "greenyellow" : "white",
-                })}>
-                Manage Category
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className=" py-2 px-3 block hover:translate-x-2  hover:bg-[#2E2D2D] rounded-sm"
-                to="/admin/products/add"
-                style={({isActive}) => ({
-                  color: isActive ? "greenyellow" : "white",
-                })}>
-                Create Product
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className=" py-2 px-3 block hover:translate-x-2 hover:bg-[#2E2D2D] rounded-sm"
-                to="/admin/products/list"
-                style={({isActive}) => ({
-                  color: isActive ? "greenyellow" : "white",
-                })}>
-                All Products
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className=" py-2 px-3 block hover:translate-x-2 hover:bg-[#2E2D2D] rounded-sm"
-                to="/admin/users"
-                style={({isActive}) => ({
-                  color: isActive ? "greenyellow" : "white",
-                })}>
-                Manage Users
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className=" py-2 px-3 block hover:translate-x-2 hover:bg-[#2E2D2D] rounded-sm"
-                to="/admin/orderlist"
-                style={({isActive}) => ({
-                  color: isActive ? "greenyellow" : "white",
-                })}>
-                Manage Orders
-              </NavLink>
-            </li>
+        <section className="bg-[#1b1b1b] rounded-lg p-5 z-10 absolute right-10 top-16 shadow-lg w-64 border border-[#2a2a2a]">
+          <ul className="list-none">
+            {/* Menu Items */}
+            {[
+              {label: "Admin Dashboard", to: "/admin/dashboard"},
+              {label: "Manage Category", to: "/admin/categories"},
+              {label: "Create Product", to: "/admin/products/add"},
+              {label: "All Products", to: "/admin/products/list"},
+              {label: "Manage Users", to: "/admin/users"},
+              {label: "Manage Orders", to: "/admin/orderlist"},
+            ].map((item, index) => (
+              <li key={index} className="mb-3">
+                <NavLink
+                  className="py-2 px-4 block text-[#d1d1d1] rounded-md transition-all duration-300 hover:translate-x-2 hover:bg-[#2e2e2e] hover:text-[#32de84]"
+                  to={item.to}
+                  style={({isActive}) => ({
+                    color: isActive ? "#32de84" : "#d1d1d1",
+                    backgroundColor: isActive ? "#2e2e2e" : "transparent",
+                  })}>
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </section>
       )}

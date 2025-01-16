@@ -129,7 +129,7 @@ const ProductUpdate = () => {
     return <Loader />;
   }
   return (
-    <section className="relative p-6 bg-gray-100 min-h-screen">
+    <section className="relative p-6">
       <AdminMenu />
       <div className="max-w-5xl mx-auto mt-10 bg-white rounded-lg shadow-lg p-3 md:p-6">
         <h1 className="text-3xl font-bold text-center text-gray-700 mb-6 ">Update Product</h1>
