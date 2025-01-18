@@ -10,6 +10,7 @@ const generateToken = (res, userId) => {
     httpOnly: true,
     secure: process.env.NODE_ENV !== "development",
     sameSite: "None",
+    domain: process.env.FRONTEND_URL,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
