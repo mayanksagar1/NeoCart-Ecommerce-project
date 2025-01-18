@@ -9,6 +9,7 @@ import {
   deleteUserById,
   getUserById,
   updateUserById,
+  getUserCount
 } from "../controllers/userController.js";
 import { authenticate, authorizeAdmin } from "../middleware/authHandler.js";
 
@@ -29,6 +30,7 @@ router.route("/profile")
   .get(authenticate, getCurrentUserProfile)
   .put(authenticate, updateCurrentUserProfile);
 
+router.route("/total-users").get(authenticate, authorizeAdmin, getUserCount);
 // admin routes
 router.route("/:id")
   .delete(authenticate, authorizeAdmin, deleteUserById)

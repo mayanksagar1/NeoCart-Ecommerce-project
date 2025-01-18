@@ -12,14 +12,16 @@ const orderApiSlice = apiSlice.injectEndpoints({
     }),
 
     getAllOrders: builder.query({
-      query: () => ({
-        url: `${ORDER_URL}/`
+      query: (page) => ({
+        url: `${ORDER_URL}/`,
+        params: page,
       })
     }),
 
     getMyOrders: builder.query({
-      query: () => ({
-        url: `${ORDER_URL}/user`
+      query: (page) => ({
+        url: `${ORDER_URL}/user`,
+        params: page,
       }),
       keepUnusedDataFor: 5,
     }),

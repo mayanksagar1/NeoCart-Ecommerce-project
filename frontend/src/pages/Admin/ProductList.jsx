@@ -42,7 +42,7 @@ const ProductList = () => {
                   <div className="flex justify-between">
                     <Link
                       to={`/admin/products/update/${product._id}`}
-                      className="inline-flex items-center gap-2 border-2 border-black px-4 py-2  text-sm font-medium text-center text-white bg-pink-700 rounded-lg hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
+                      className="inline-flex items-center gap-2 px-4 py-2  text-sm font-medium text-center text-white bg-pink-700 rounded-lg hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">
                       Update Product
                       <FaArrowRightLong />
                     </Link>

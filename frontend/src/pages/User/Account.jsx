@@ -8,7 +8,7 @@ const Account = () => {
     <section className="p-4 lg:w-[85vw] m-auto">
       <div className="flex flex-col md:flex-row gap-6 max-w-6xl mx-auto mt-2">
         {/* Sidebar */}
-        <ul className="bg-white rounded-lg shadow-lg p-6 md:w-1/4 w-full border">
+        <ul className="bg-white rounded-lg shadow-lg p-6 md:w-1/4 h-fit w-full border">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Your Account</h2>
           <li className="mb-2">
             <NavLink

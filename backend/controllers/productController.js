@@ -68,32 +68,43 @@ const deleteProductById = asyncHandler(async (req, res) => {
 
 const fetchProducts = asyncHandler(async (req, res) => {
   try {
-    const keyword = req.query.keyword;
-    const page = req.query.page || 1;
-    const limit = 8;
-    const filter = keyword ? {
-      $or: [
-        { name: { $regex: keyword, $options: "i" } },
-        { description: { $regex: keyword, $options: "i" } },
-        { brand: { $regex: keyword, $options: "i" } },
-      ],
-    } : {};
-
+    const keyword = req.query.keyword?.trim();
+    const page = Math.max(Number(req.query.page) || 1, 1); // Ensure page is at least 1
+    const limit = 12;
     const skip = (page - 1) * limit;
 
-    const products = await Product.find(filter).skip(skip).limit(limit);
+    const filter = keyword
+      ? {
+        $or: [
+          { name: { $regex: keyword, $options: "i" } },
+          { description: { $regex: keyword, $options: "i" } },
+          { brand: { $regex: keyword, $options: "i" } },
+        ],
+      }
+      : {};
+
+    const products = await Product.find(filter)
+      .skip(skip)
+      .limit(limit);
+
     const totalCount = await Product.countDocuments(filter);
+
+    if (products.length === 0) {
+      return res.status(404).json({ message: "No products found" });
+    }
 
     res.json({
       products,
-      page: page,
+      page,
       totalPages: Math.ceil(totalCount / limit),
+      totalProducts: totalCount,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching products:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 
 const fetchProductById = asyncHandler(async (req, res) => {
@@ -104,7 +115,7 @@ const fetchProductById = asyncHandler(async (req, res) => {
     }
     const product = await Product.findById(id);
     if (!product) {
-      res.status(404).json({ error: "Product not found" });
+      return res.status(404).json({ error: "Product not found" });
     }
     res.json(product);
   } catch (error) {
@@ -128,7 +139,7 @@ const addProductReview = asyncHandler(async (req, res) => {
     const { rating, comment, } = req.body;
     const product = await Product.findById(req.params.id);
     if (!product) {
-      res.status(404).json({ error: "Product not found" });
+      return res.status(404).json({ error: "Product not found" });
     }
     const alreadyReviewed = product.reviews.find((r) => r.user.toString() === req.user._id.toString());
     if (alreadyReviewed) {
@@ -160,7 +171,7 @@ const updateProductReview = asyncHandler(async (req, res) => {
     const { rating, comment } = req.body;
     const product = await Product.findById(req.params.id);
     if (!product) {
-      res.status(404).json({ error: "Product not found" });
+      return res.status(404).json({ error: "Product not found" });
     }
     const review = product.reviews.find((r) => r.user.toString() === req.user._id.toString());
     if (!review) {

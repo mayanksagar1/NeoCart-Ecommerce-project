@@ -226,8 +226,8 @@ const MultiStepOrderPage = () => {
         <div className="p-6 bg-white border rounded-lg shadow-lg text-center">
           <h1 className="text-2xl font-bold mb-6">Order Confirmed!</h1>
           <p className="text-gray-600 mb-4">Thank you for your order.</p>
-          <p className="text-gray-600">Order ID: {orderDetails._id}</p>
-          <p className="text-gray-600">Total Amount: ${orderDetails.totalPrice}</p>
+          <p className="text-gray-600 text-lg font-semibold">Order ID: {orderDetails._id}</p>
+          <p className="text-gray-600 text-2xl font-bold">Total Amount: ${orderDetails.totalPrice}</p>
           <button className="mt-6 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition" onClick={() => (window.location.href = "/")}>
             Back to Home
           </button>

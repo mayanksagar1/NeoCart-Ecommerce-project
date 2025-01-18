@@ -9,7 +9,7 @@ import SmallProduct from "./Products/SmallProduct";
 
 const Home = () => {
   const {keyword, page} = useParams();
-  const {data, isLoading, isError} = useFetchProductsQuery(keyword, page);
+  const {data, isLoading, isError} = useFetchProductsQuery({keyword, page});
   return (
     <section className="w-full md:w-[85vw] m-auto ">
       <Hero />

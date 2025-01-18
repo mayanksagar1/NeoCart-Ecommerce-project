@@ -25,11 +25,13 @@ const Shop = () => {
 
   useEffect(() => {
     if (!checked.length || !radio.length) {
-      if (!filteredProductsQuery.isLoading && filteredProductsQuery.isSuccess) {
+      if (!filteredProductsQuery.isLoading && filteredProductsQuery.isSuccess && priceFilter !== "") {
         const filteredProducts = filteredProductsQuery.data.filter((product) => {
-          return product.price.toString().includes(priceFilter) || product.price <= parseInt(priceFilter, 10);
+          return product.price <= parseInt(priceFilter, 10);
         });
         dispatch(setProducts(filteredProducts));
+      } else if (!filteredProductsQuery.isLoading && filteredProductsQuery.isSuccess && priceFilter === "") {
+        dispatch(setProducts(filteredProductsQuery.data));
       }
     }
   }, [dispatch, filteredProductsQuery.data, checked, radio, priceFilter]);

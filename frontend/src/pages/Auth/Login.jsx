@@ -12,12 +12,13 @@ import {setCart} from "../../redux/features/cart/cartSlice.js";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const [backendCart, setBackendCart] = useState(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [login, {isLoading}] = useLoginMutation();
-  const {data: backendCart} = useGetCartQuery();
+  const {data: backendCart, refetch} = useGetCartQuery();
   const [addToCartApi] = useAddToCartMutation();
   const [updateCartApi] = useUpdateCartItemMutation();
 
@@ -27,6 +28,12 @@ const Login = () => {
   const {search} = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get("redirect") || "/";
+
+  useEffect(() => {
+    if (userInfo) {
+      refetch();
+    }
+  }, [userInfo]);
 
   const syncCart = async () => {
     if (!localCart || localCart.cartItems.length === 0) {

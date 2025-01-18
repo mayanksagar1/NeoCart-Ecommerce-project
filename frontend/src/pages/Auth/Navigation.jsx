@@ -55,7 +55,7 @@ const Navigation = () => {
   return (
     <>
       {!showSidebar ? (
-        <div className="block xl:hidden lg:hidden  fixed top-6 left-4 z-50">
+        <div className="block xl:hidden lg:hidden  fixed top-7 left-4 z-50">
           <button onClick={toggleSidebar}>
             <FaBars size={26} />
           </button>

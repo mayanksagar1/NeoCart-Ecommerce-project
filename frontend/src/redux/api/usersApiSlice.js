@@ -64,6 +64,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/${id}`,
         method: "DELETE",
       })
+    }),
+
+    getUsersCount: builder.query({
+      query: () => ({
+        url: `${USERS_URL}/total-users`,
+        method: "GET"
+      })
     })
 
 
@@ -77,5 +84,6 @@ export const { useLoginMutation,
   useDeleteUserMutation,
   useGetUsersQuery,
   useGetUserDetailsMutation,
-  useUpdateUserMutation
+  useUpdateUserMutation,
+  useGetUsersCountQuery
 } = usersApiSlice;

@@ -30,7 +30,7 @@ const AdminMenu = () => {
               {label: "Create Product", to: "/admin/products/add"},
               {label: "All Products", to: "/admin/products/list"},
               {label: "Manage Users", to: "/admin/users"},
-              {label: "Manage Orders", to: "/admin/orderlist"},
+              {label: "Manage Orders", to: "/admin/orders/list"},
             ].map((item, index) => (
               <li key={index} className="mb-3">
                 <NavLink

@@ -76,7 +76,7 @@ const getAllOrders = asyncHandler(async (req, res) => {
     const limit = 15;
     const skip = (page - 1) * 15;
 
-    const orders = await Order.find({}).skip(skip).limit(limit).populate("user", "_id username");
+    const orders = await Order.find({}).sort({ createdAt: -1 }).skip(skip).limit(limit).populate("user", "_id username");
     const totalCount = await Order.countDocuments({});
     const totalPages = Math.ceil(totalCount / limit);
 
@@ -100,7 +100,7 @@ const getUserOrders = asyncHandler(async (req, res) => {
     const limit = 15;
     const skip = (page - 1) * limit;
 
-    const orders = await Order.find({ user: userId }).skip(skip).limit(limit);
+    const orders = await Order.find({ user: userId }).sort({ createdAt: -1 }).skip(skip).limit(limit);
     const totalCount = await Order.countDocuments({ user: userId });
 
     res.json({

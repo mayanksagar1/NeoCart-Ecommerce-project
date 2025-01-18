@@ -162,6 +162,16 @@ const updateUserById = asyncHandler(async (req, res) => {
   }
 });
 
+const getUserCount = asyncHandler(async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments({});
+    res.json({ totalUsers });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 export {
   createUser,
   loginUser,
@@ -171,5 +181,6 @@ export {
   updateCurrentUserProfile,
   deleteUserById,
   getUserById,
-  updateUserById
+  updateUserById,
+  getUserCount,
 }; 

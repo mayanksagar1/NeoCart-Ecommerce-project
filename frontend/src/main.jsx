@@ -25,7 +25,9 @@ import MultiStepOrderPage from "./pages/Order/MultiStepOrderPage.jsx";
 import Account from "./pages/User/Account.jsx";
 import Profile from "./pages/User/Profile.jsx";
 import Orders from "./pages/User/Orders.jsx";
+import OrderDetails from "./pages/Order/OrderDetails.jsx";
 import Address from "./pages/User/Address.jsx";
+import SearchResult from "./components/SearchResult.jsx";
 
 // admin
 import AdminRoute from "./pages/Admin/AdminRoute.jsx";
@@ -36,6 +38,8 @@ import ProductList from "./pages/Admin/ProductList.jsx";
 import CreateProduct from "./pages/Admin/CreateProduct.jsx";
 import ProductUpdate from "./pages/Admin/ProductUpdate.jsx";
 import ProductDetails from "./pages/Products/ProductDetails.jsx";
+import OrderList from "./pages/Admin/orderList.jsx";
+import AdminOrderDetails from "./pages/Admin/AdminOrderDetails.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -47,6 +51,7 @@ const router = createBrowserRouter(
       <Route path="/product/:id" element={<ProductDetails />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/shop" element={<Shop />} />
+      <Route path="/search" element={<SearchResult />} />
 
       <Route path="" element={<PrivateRoute />}>
         {/* user routes */}
@@ -54,6 +59,7 @@ const router = createBrowserRouter(
         <Route path="/account" element={<Account />}>
           <Route path="/account/profile" element={<Profile />} />
           <Route path="/account/orders" element={<Orders />} />
+          <Route path="/account/order/:orderId" element={<OrderDetails />} />
           <Route path="/account/addresses" element={<Address />} />
         </Route>
         {/* Admin routes */}
@@ -64,6 +70,8 @@ const router = createBrowserRouter(
           <Route path="/admin/products/add" element={<CreateProduct />} />
           <Route path="/admin/products/list" element={<ProductList />} />
           <Route path="/admin/products/update/:_id" element={<ProductUpdate />} />
+          <Route path="/admin/orders/list" element={<OrderList />} />
+          <Route path="/admin/orders/:orderId" element={<AdminOrderDetails />} />
         </Route>
       </Route>
     </Route>,
