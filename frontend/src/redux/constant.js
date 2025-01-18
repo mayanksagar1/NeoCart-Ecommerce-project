@@ -1,4 +1,4 @@
-export const BASE_URL = "";
+export const BASE_URL = import.meta.env.VITE_BACKEND_URL || "";
 export const USERS_URL = "/api/users";
 export const CATEGORY_URL = "/api/categories";
 export const PRODUCTS_URL = "/api/products";
