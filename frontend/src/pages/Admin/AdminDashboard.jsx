@@ -47,8 +47,8 @@ const AdminDashboard = () => {
   };
 
   // Loader or error handling
-  if (usersLoading || ordersLoading || salesLoading || salesByDateLoading) return <Loader />;
-  if (usersError || ordersError || salesError || salesByDateError) {
+  if (usersLoading || ordersLoading || salesLoading || salesByDateLoading || isLoading) return <Loader />;
+  if (usersError || ordersError || salesError || salesByDateError || error) {
     return <Message variant="error">Failed to load dashboard data.</Message>;
   }
 
@@ -155,7 +155,7 @@ const AdminDashboard = () => {
               </div>
               <div>
                 <h3 className="text-lg font-semibold mb-2">Total Sales</h3>
-                <p className="text-3xl font-bold">${totalSales.totalSales}</p>
+                <p className="text-3xl font-bold">${totalSales.totalSales.toFixed(2)}</p>
               </div>
             </div>
           </div>
@@ -204,56 +204,60 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {orderApiData.orders.map((order) => (
-                  <tr key={order._id} className="border-b hover:bg-gray-50">
-                    <td className="px-4 py-2 flex min-w-40 flex-wrap gap-2">
-                      {order.orderItems.map((item, index) => (
-                        <img key={index} src={item.image || "#"} alt={item.name} className="w-12 h-12 object-cover rounded-md" />
-                      ))}
-                    </td>
-                    <td className="px-4 py-2">{order._id}</td>
-                    <td className="px-4 py-2">{order.user ? order.user.username : "N/A"}</td>
-                    <td className="px-4 py-2">{order.createdAt.substring(0, 10)}</td>
-                    <td className="px-4 py-2">${order.totalPrice.toFixed(2)}</td>
-                    <td className="px-4 py-2">
-                      {order.isPaid ? (
-                        <span className="bg-green-100 text-green-700 py-1 px-3 rounded-full">Paid</span>
-                      ) : (
-                        <span className="bg-red-100 text-red-700 py-1 px-3 rounded-full">Pending</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-2">
-                      <select className="border border-gray-300 rounded-md py-1 px-2" value={order.orderStatus} onChange={(e) => handleStatusChange(order._id, e.target.value)}>
-                        {getNextStatusOptions(order.orderStatus).map((status) => (
-                          <option key={status} value={status}>
-                            {status}
-                          </option>
+                {orderApiData &&
+                  !isLoading &&
+                  orderApiData.orders.map((order) => (
+                    <tr key={order._id} className="border-b hover:bg-gray-50">
+                      <td className="px-4 py-2 flex min-w-40 flex-wrap gap-2">
+                        {order.orderItems.map((item, index) => (
+                          <img key={index} src={item.image || "#"} alt={item.name} className="w-12 h-12 object-cover rounded-md" />
                         ))}
-                      </select>
-                    </td>
-                    <td className="px-4 py-2">
-                      <Link to={`/admin/orders/${order._id}`}>
-                        <button className="bg-blue-500 text-white py-1 px-4 rounded-md hover:bg-blue-600">View</button>
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="px-4 py-2">{order._id}</td>
+                      <td className="px-4 py-2">{order.user ? order.user.username : "N/A"}</td>
+                      <td className="px-4 py-2">{order.createdAt.substring(0, 10)}</td>
+                      <td className="px-4 py-2">${order.totalPrice.toFixed(2)}</td>
+                      <td className="px-4 py-2">
+                        {order.isPaid ? (
+                          <span className="bg-green-100 text-green-700 py-1 px-3 rounded-full">Paid</span>
+                        ) : (
+                          <span className="bg-red-100 text-red-700 py-1 px-3 rounded-full">Pending</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2">
+                        <select className="border border-gray-300 rounded-md py-1 px-2" value={order.orderStatus} onChange={(e) => handleStatusChange(order._id, e.target.value)}>
+                          {getNextStatusOptions(order.orderStatus).map((status) => (
+                            <option key={status} value={status}>
+                              {status}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td className="px-4 py-2">
+                        <Link to={`/admin/orders/${order._id}`}>
+                          <button className="bg-blue-500 text-white py-1 px-4 rounded-md hover:bg-blue-600">View</button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
 
           {/* Pagination Section */}
-          <div className="flex justify-between items-center mt-6">
-            <button onClick={() => handlePageChange(currentPage - 1)} className="bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300" disabled={currentPage === 1}>
-              Previous
-            </button>
-            <p className="text-gray-700">
-              Page {orderApiData.page} of {orderApiData.totalPages}
-            </p>
-            <button onClick={() => handlePageChange(currentPage + 1)} className="bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300" disabled={currentPage === orderApiData.totalPages}>
-              Next
-            </button>
-          </div>
+          {orderApiData && !isLoading && (
+            <div className="flex justify-between items-center mt-6">
+              <button onClick={() => handlePageChange(currentPage - 1)} className="bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300" disabled={currentPage === 1}>
+                Previous
+              </button>
+              <p className="text-gray-700">
+                Page {orderApiData.page} of {orderApiData.totalPages}
+              </p>
+              <button onClick={() => handlePageChange(currentPage + 1)} className="bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300" disabled={currentPage === orderApiData.totalPages}>
+                Next
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </div>

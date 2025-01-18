@@ -1,6 +1,7 @@
 // packages
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import path from "path";
 import cookieParser from "cookie-parser";
 
@@ -23,10 +24,31 @@ connectDB();
 
 const port = process.env.PORT || 5000;
 const app = express();
+console.log(process.env.FRONTEND_URL);
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Cache-Control",
+      "Expires",
+      "Pragma",
+    ],
+    credentials: true,
+  })
+);
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.get("/", (req, res) => {
+  res.send("server running successfully");
+});
 
 app.use("/api/users", userRoutes);
 app.use("/api/categories", categoryRouter);
